@@ -1,0 +1,18 @@
+{
+    "name": "EmojiFix",
+    "description": "Port of aliucord plugin (client side, other people will just see urls)",
+    "authors": [
+        {
+            "name": "MSMA",
+            "id": "307215253811363843"
+        },
+        {
+            "name": "sapphire",
+            "id": "757982547861962752"
+        }
+    ],
+    "main": "src/index.tsx",
+    "vendetta": {
+        "icon": "ic_chat_bubble_16px"
+    }
+}
