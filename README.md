@@ -1,7 +1,6 @@
-# Vendetta Plugins Template
-This repo contains a template for creating [Vendetta](https://github.com/vendetta-mod/Vendetta) plugins.
+# [vdplugins](https://github.com/aeongdesu/vdplugins)
 
 # How to install?
 Paste a plugin URL into the Plugins page of Vendetta, following a basic format of:
 
-https://`YOUR_GITHUB_USERNAME`.github.io/`REPO_NAME`/`PLUGIN_NAME`
+https://aeongdesu.github.io/vdplugins/`PLUGIN_NAME`
