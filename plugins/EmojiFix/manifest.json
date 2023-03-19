@@ -13,6 +13,6 @@
     ],
     "main": "src/index.tsx",
     "vendetta": {
-        "icon": "ic_chat_bubble_16px"
+        "icon": "img_nitro_emojis"
     }
 }
