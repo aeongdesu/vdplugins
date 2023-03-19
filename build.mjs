@@ -76,14 +76,14 @@ for (let plug of await readdir("./plugins")) {
 
         console.log(`Successfully built ${manifest.name}!`)
 
-        if (deploy) {
-            const exec = (cmd) => execSync(cmd, { stdio: "inherit" })
-            console.log("Deploying plugin to device...")
-            exec(`adb shell am force-stop dev.beefers.vendetta`)
-            exec(`adb shell am start -n dev.beefers.vendetta/com.discord.main.MainActivity`)
-        }
     } catch (e) {
         console.error("Failed to build plugin...", e)
         process.exit(1)
     }
+}
+if (deploy) {
+    const exec = (cmd) => execSync(cmd, { stdio: "inherit" })
+    console.log("Deploying plugin to device...")
+    exec(`adb shell am force-stop dev.beefers.vendetta`)
+    exec(`adb shell am start -n dev.beefers.vendetta/com.discord.main.MainActivity`)
 }

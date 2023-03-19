@@ -4,8 +4,8 @@ import { before } from "@vendetta/patcher"
 
 const EMOJI_REGEX = /https?:\/\/.*\/emojis\/([0-9]+).(webp|png|gif)\?.*/
 const chatManager = ReactNative.NativeModules.DCDChatManager
-const unpatch = before("updateRows", chatManager, (ctx: any) => {
-    const json = ctx.args[1]
+const unpatch = before("updateRows", chatManager, (args) => {
+    const json = args[1]
     let messages = JSON.parse(json)
     let newMessages: any = []
     for (let i = 0; i < messages.length; i++) {
@@ -94,7 +94,7 @@ const unpatch = before("updateRows", chatManager, (ctx: any) => {
         } catch {}
         newMessages.push(msg)
     }
-    ctx.args[1] = JSON.stringify(newMessages)
+    args[1] = JSON.stringify(newMessages)
 })
 
 export const onUnload = () => unpatch()
