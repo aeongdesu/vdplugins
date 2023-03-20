@@ -1,6 +1,5 @@
 import { findByProps as getByProps } from "@vendetta/metro"
 import { ReactNative, constants as Constants, clipboard } from "@vendetta/metro/common"
-import { copyText } from "@vendetta/utils"
 import { showToast } from "@vendetta/ui/toasts"
 import { getAssetIDByName as getAssetId } from "@vendetta/ui/assets"
 
