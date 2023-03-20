@@ -7,12 +7,11 @@ const { View } = ReactNative
 const unpatch = after("render", View, (_, res) => {
     const textChannel = findInReactTree(res, r => r?.props?.channel?.name && r?.props?.hasOwnProperty?.("isRulesChannel"))
     if (!textChannel) return
-    const patch = after("type", textChannel.type, (_, res: any) => {
+    const unpatch = after("type", textChannel.type, (_, res) => {
         const textChannelName = findInReactTree(res, r => typeof r?.children === "string")
-        
         if (!textChannelName) return
         textChannelName.children = textChannelName.children.replace(/-/g, " ")
-        patch()
+        unpatch()
     })
 })
 export const onUnload = () => unpatch()

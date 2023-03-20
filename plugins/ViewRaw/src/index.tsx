@@ -1,13 +1,9 @@
 import { before, after } from "@vendetta/patcher"
 import { getAssetIDByName as getAssetId } from "@vendetta/ui/assets"
 import { findByProps as getByProps } from "@vendetta/metro"
-import { ReactNative, NavigationNative } from "@vendetta/metro/common"
-// navigation not working for me lol
-
 import RawPage from "./RawPage"
 
 export let message: any
-
 
 const ActionSheet = getByProps("hideActionSheet")
 const Navigation = getByProps("push", "pushLazy", "pop")
