@@ -1,0 +1,14 @@
+{
+    "name": "UtilCommands",
+    "description": "same as aliucord's core commands",
+    "authors": [
+        {
+            "name": "sapphire",
+            "id": "757982547861962752"
+        }
+    ],
+    "main": "src/index.ts",
+    "vendetta": {
+        "icon": "ic_application_command_24px"
+    }
+}
