@@ -1,6 +1,6 @@
+// https://github.com/Aliucord/AliucordRN/blob/main/src/core-plugins/CoreCommands.ts
 import { registerCommand } from "@vendetta/commands"
 import { findByProps } from "@vendetta/metro"
-
 
 enum ApplicationCommandOptionType {
     SUB_COMMAND = 1,
