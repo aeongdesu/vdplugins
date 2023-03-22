@@ -1,6 +1,6 @@
 {
-    "name": "DisableSwipeToReply",
-    "description": "overrides STR experiment value to control.",
+    "name": "SlowmodeExtended",
+    "description": "Extends slowmode values",
     "authors": [
         {
             "name": "sapphire",
@@ -9,6 +9,6 @@
     ],
     "main": "src/index.ts",
     "vendetta": {
-        "icon": "ic_reply_24px"
+        "icon": "ic_timer_24px"
     }
 }
