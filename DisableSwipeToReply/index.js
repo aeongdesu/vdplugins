@@ -1,0 +1,1 @@
+(function(e,n,t){"use strict";const c=function(){const r=function(){try{t.FluxDispatcher.dispatch({type:"EXPERIMENT_OVERRIDE_BUCKET",experimentId:"2022-12_swipe_to_reply",experimentBucket:1}),t.FluxDispatcher.unsubscribe("I18N_LOAD_START",r)}catch(i){n.logger.error(i)}};t.FluxDispatcher.subscribe("I18N_LOAD_START",r)};return e.onLoad=c,e})({},vendetta,vendetta.metro.common);
