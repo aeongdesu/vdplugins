@@ -1,0 +1,1 @@
+(function(s,n){"use strict";const e=n.constants.SLOWMODE_VALUES;let o=[];for(let t=0;t<=21600;t++)(t<=60&&t<120||t>=120&&t%60===0&&t<=3600||t>=7200&&t%3600===0)&&o.push(t);n.constants.SLOWMODE_VALUES=o;const c=function(){return n.constants.SLOWMODE_VALUES=e};return s.onUnload=c,s})({},vendetta.metro.common);
