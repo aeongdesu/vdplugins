@@ -1,4 +1,4 @@
-// @ts-ignore
+// https://github.com/Martinz64/AliucordRN-Plugins/blob/main/EmojiFix/index.tsx
 import { ReactNative } from "@vendetta/metro/common"
 import { before } from "@vendetta/patcher"
 
