@@ -12,5 +12,6 @@ const unpatch = after("render", View, (_, res) => {
         if (!textChannelName) return
         textChannelName.children = textChannelName.children.replace(/-/g, " ")
     }, true)
+    unpatch()
 })
 export const onUnload = () => unpatch()
