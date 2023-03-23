@@ -1,3 +1,4 @@
+// https://github.com/ssense1337/enmity-plugins/blob/main/Dashless/src/index.tsx
 import { ReactNative } from "@vendetta/metro/common"
 import { after } from "@vendetta/patcher"
 import { findInReactTree } from "@vendetta/utils"
@@ -11,7 +12,9 @@ const unpatch = after("render", View, (_, res) => {
         const textChannelName = findInReactTree(res, r => typeof r?.children === "string")
         if (!textChannelName) return
         textChannelName.children = textChannelName.children.replace(/-/g, " ")
-    }, true)
+        return res
+    })
     unpatch()
 })
+
 export const onUnload = () => unpatch()
