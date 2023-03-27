@@ -1,6 +1,6 @@
 import { before, after } from "@vendetta/patcher"
 import { getAssetIDByName as getAssetId } from "@vendetta/ui/assets"
-import { findByProps as getByProps, findByDisplayName } from "@vendetta/metro"
+import { findByProps as getByProps, findByName } from "@vendetta/metro"
 import { Forms } from "@vendetta/ui/components"
 import RawPage from "./RawPage"
 
@@ -10,7 +10,7 @@ const ActionSheet = getByProps("openLazy", "hideActionSheet")
 const Navigation = getByProps("push", "pushLazy", "pop")
 const DiscordNavigator = getByProps("getRenderCloseButton")
 const { default: Navigator, getRenderCloseButton } = DiscordNavigator
-const Icon = findByDisplayName("Icon")
+const Icon = findByName("Icon")
 const { FormRow } = Forms
 
 const unpatch = before("openLazy", ActionSheet, (ctx) => {
