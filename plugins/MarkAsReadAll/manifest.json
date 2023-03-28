@@ -1,6 +1,6 @@
 {
-    "name": "ClientThemes",
-    "description": "test",
+    "name": "MarkAsReadAll",
+    "description": "/markasreadall (port of vencord)",
     "authors": [
         {
             "name": "sapphire",
@@ -9,6 +9,6 @@
     ],
     "main": "src/index.ts",
     "vendetta": {
-        "icon": "ic_theme_24px"
+        "icon": "ic_notification_settings"
     }
 }
