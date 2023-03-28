@@ -7,7 +7,7 @@ const GuildStore = findByStoreName("GuildStore")
 const GuildChannelStore = findByStoreName("GuildChannelStore")
 const ReadStateStore = findByStoreName("ReadStateStore")
 
-const unpatch = registerCommand({
+const unregisterCommand = registerCommand({
     name: "markasreadall",
     displayName: "markasreadall",
     description: "read all server notifications",
@@ -45,3 +45,5 @@ const unpatch = registerCommand({
         }
     }
 })
+
+export const onUnload = () => unregisterCommand()
