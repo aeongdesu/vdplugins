@@ -12,7 +12,7 @@ const osu_beatmap_patterns = {
 const osu_profile_pattern = /https?:\/\/(osu|old).ppy.sh\/(u|users)\/([^\s]+)/
 
 const getToken = async () => {
-    if (settings.accessData.token && settings.accessData.expires_in > Date.now()) return settings.accessData.token
+    if (settings.accessData?.token && settings.accessData?.expires_in > Date.now()) return settings.accessData.token
     const { access_token, expires_in } = await fetch("https://osu.ppy.sh/oauth/token", {
         method: "POST",
         headers: {
@@ -30,7 +30,6 @@ const getToken = async () => {
         token: access_token,
         expires_in: (expires_in * 1000) + Date.now()
     }
-
     return access_token
 }
 
@@ -42,8 +41,8 @@ const fetchApi = async (url: string) => await fetch(url, {
     }
 }).then(res => res.json())
 
-export const getBeatmapInfo = async (beatmap: string) => {
-    if (!Number.isInteger(beatmap)) {
+export const getBeatmap = async (beatmap: string) => {
+    if (isNaN(parseFloat(beatmap))) {
         for (const pattern in osu_beatmap_patterns) {
             const matches = beatmap.match(osu_beatmap_patterns[pattern])
             if (!matches) continue
@@ -51,6 +50,7 @@ export const getBeatmapInfo = async (beatmap: string) => {
         }
     }
     const data = await fetchApi(`https://osu.ppy.sh/api/v2/beatmaps/${beatmap}`)
+    if (!data.id) return undefined
     return {
         id: data.id,
         setid: data.beatmapset_id,
@@ -60,5 +60,23 @@ export const getBeatmapInfo = async (beatmap: string) => {
         version: data.version,
         diffrating: data.difficulty_rating,
         bpm: data.bpm
+    }
+}
+
+export const getUser = async (user: string) => {
+    if (isNaN(parseFloat(user))) {
+        const match = user.match(osu_profile_pattern)
+        if (match) user = match[match.length - 1]
+    }
+    const data = await fetchApi(`https://osu.ppy.sh/api/v2/users/${user}`)
+    console.log(data)
+    if (!data.id) return undefined
+    return {
+        country_code: data.country_code,
+        username: data.username,
+        id: data.id,
+        rank: data.statistics.global_rank,
+        country_rank: data.statistics.country_rank,
+        pp: data.statistics.pp
     }
 }

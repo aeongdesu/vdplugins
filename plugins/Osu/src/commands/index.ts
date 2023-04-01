@@ -1,7 +1,7 @@
 import ProfileCommand from "./Profile"
 import BeatmapsetCommand from "./Beatmap"
 
-export let commands = [
+export const commands = [
     ProfileCommand,
     BeatmapsetCommand
 ]
