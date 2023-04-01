@@ -1,19 +1,11 @@
 import { React, ReactNative } from "@vendetta/metro/common"
 import { Forms } from "@vendetta/ui/components"
-import { useProxy } from "@vendetta/storage"
-import { storage } from "@vendetta/plugin"
+import { settings } from "./utils"
 
 const { ScrollView } = ReactNative
 const { FormSection, FormInput } = Forms
 
-type SettingsType = {
-    clientID: string,
-    clientSecret: string,
-    accessToken: string
-}
-
 export default () => {
-    const settings = useProxy(storage) as SettingsType
 
     return (
         <ScrollView style={{ flex: 1 }}>

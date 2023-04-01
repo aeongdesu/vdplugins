@@ -1,8 +1,5 @@
-import { getSettings } from "@vendetta/plugins"
-import { plugin } from "@vendetta"
 import { registerCommand } from "@vendetta/commands"
-import { storage } from "@vendetta/plugin"
-import { React, NavigationNative } from "@vendetta/metro/common"
+import { settings, sendBotMessage } from "../utils"
 
 export default registerCommand({
     name: "osu-profile",
@@ -22,7 +19,6 @@ export default registerCommand({
     type: 1,
 
     execute: async (args, ctx) => {
-        console.log(storage)
-        if (!storage.clientID || !storage.clientSecret) return getSettings(plugin.id)
+        if (!settings.clientID || !Number.isInteger(settings.clientID) || !settings.clientSecret) return sendBotMessage(ctx.channel.id, "Please set apiv2 configuration in plugin settings.")
     }
 })
