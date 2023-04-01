@@ -1,0 +1,14 @@
+{
+    "name": "Osu",
+    "description": "A free-to-win rhythm game. Rhythm is just a click away!",
+    "authors": [
+        {
+            "name": "sapphire",
+            "id": "757982547861962752"
+        }
+    ],
+    "main": "src/index.ts",
+    "vendetta": {
+        "icon": "ic_radio_circle"
+    }
+}
