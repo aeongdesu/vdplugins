@@ -3,7 +3,7 @@ import { Forms } from "@vendetta/ui/components"
 import { settings } from "./utils"
 
 const { ScrollView } = ReactNative
-const { FormSection, FormInput } = Forms
+const { FormSection, FormInput, FormDivider } = Forms
 
 export default () => {
 
@@ -21,6 +21,15 @@ export default () => {
                     value={settings.clientSecret}
                     placeholder="asdfghjkl"
                     onChangeText={(value: string) => settings.clientSecret = value}
+                />
+            </FormSection>
+            <FormDivider />
+            <FormSection title="default user" titleStyleType="no_border">
+                <FormInput
+                    title="User"
+                    value={settings.user}
+                    placeholder="peppy"
+                    onChangeText={(value: string) => settings.user = value}
                 />
             </FormSection>
         </ScrollView>
