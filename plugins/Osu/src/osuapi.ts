@@ -2,7 +2,7 @@ import { settings } from "./utils"
 import { findByProps } from "@vendetta/metro"
 import { nicething } from "./utils"
 
-const Messages = findByProps("Messages")
+let isError = false
 
 /**
  * regex from https://github.com/Fanyatsu/osu-requests-bot/blob/8f0eff8031924e0929b412749b8cb4a6059c4c7b/main.py#L31-L41
@@ -29,7 +29,7 @@ const getToken = async () => {
             scope: "public"
         })
     })
-    if (!data.ok) throw Messages.receieveMessage({ content: "Failed to get access token. Did you enter the apiv2 configuration correctly?" })
+    if (!data.ok) return isError = true
     const { access_token, expires_in } = await data.json()
 
     settings.accessData = {

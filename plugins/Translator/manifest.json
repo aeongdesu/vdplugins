@@ -1,0 +1,14 @@
+{
+    "name": "Translator",
+    "description": "WORK IN PROGRESS",
+    "authors": [
+        {
+            "name": "sapphire",
+            "id": "757982547861962752"
+        }
+    ],
+    "main": "src/index.tsx",
+    "vendetta": {
+        "icon": "ic_locale_24px"
+    }
+}

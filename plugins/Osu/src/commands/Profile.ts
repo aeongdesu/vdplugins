@@ -11,8 +11,8 @@ export default registerCommand({
     options: [{
         name: "profile",
         displayName: "profile",
-        description: "Specify a username, ID, or URL of the player",
-        displayDescription: "Specify a username, ID, or URL of the player",
+        description: "Specify a username, ID, or URL",
+        displayDescription: "Specify a username, ID, or URL",
         required: false,
         type: 3
     },
