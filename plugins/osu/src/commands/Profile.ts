@@ -9,8 +9,8 @@ export default registerCommand({
     description: "Display statistics of a user",
     displayDescription: "Display statistics of a user",
     options: [{
-        name: "profile",
-        displayName: "profile",
+        name: "user",
+        displayName: "user",
         description: "Specify a username, ID, or URL",
         displayDescription: "Specify a username, ID, or URL",
         required: false,
@@ -30,7 +30,7 @@ export default registerCommand({
 
     execute: async (args, ctx) => {
         if (!settings.clientID || isNaN(parseFloat(settings.clientID)) || !settings.clientSecret) return sendBotMessage(ctx.channel.id, "Please set apiv2 configuration in plugin settings.")
-        const user = await getUser(getOption(args, "profile"))
+        const user = await getUser(getOption(args, "user"))
         if (!user) return sendBotMessage(ctx.channel.id, "Invalid User.")
         let content: Array<string>
 
@@ -40,7 +40,7 @@ export default registerCommand({
         else content = [
             `> ${user.username}: ${user.pp}pp (#${user.rank} ${user.country_code}${user.country_rank})`,
             `    <https://osu.ppy.sh/users/${user.id}>\n`,
-            `> Highest rank: \`#${nicething(user.rank_highest.rank)}\` on <t:${+new Date(user.rank_highest.updated_at) / 1000}:D>`,
+            `> Rank Peak: \`#${nicething(user.rank_highest.rank)}\` on <t:${+new Date(user.rank_highest.updated_at) / 1000}:D>`,
             `> Accuracy: \`${user.accuracy}%\` • Level: \`${user.level.current}.${user.level.progress}%\``,
             `> Playcount: \`${user.playcount}\` (\`${user.playtime} hrs\`)`,
             `> Ranks: **SSH** \`${user.grades.ssh}\` **SS** \`${user.grades.ss}\` **SH** \`${user.grades.sh}\` **S** \`${user.grades.s}\` **A** \`${user.grades.a}\``,

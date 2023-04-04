@@ -119,5 +119,6 @@ export const getRecent = async (user?: string, type?: string) => {
     const userdata = await getUser(user)
     if (!userdata) return
     const data = await fetchApi(`https://osu.ppy.sh/api/v2/users/${userdata.id}/scores/recent?include_fails=1&mode=osu&limit=5&offset=1`)
+    if (data.length === 0) return
     return data
 }
