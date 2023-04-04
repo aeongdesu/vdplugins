@@ -3,8 +3,8 @@ import { ReactNative, constants as Constants, clipboard, React } from "@vendetta
 import { showToast } from "@vendetta/ui/toasts"
 import { getAssetIDByName as getAssetId } from "@vendetta/ui/assets"
 import { cleanMessage } from "./cleanMessage"
-import { stylesheet } from "@vendetta/metro/common";
-import { semanticColors } from "@vendetta/ui";
+import { stylesheet } from "@vendetta/metro/common"
+import { semanticColors } from "@vendetta/ui"
 
 const { ScrollView, Text, TextInput, Platform } = ReactNative
 const { OS } = Platform
