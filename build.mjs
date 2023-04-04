@@ -84,6 +84,10 @@ for (let plug of await readdir("./plugins")) {
 if (deploy) {
     const exec = (cmd) => execSync(cmd, { stdio: "inherit" })
     console.log("Deploying plugin to device...")
-    exec(`adb shell am force-stop dev.beefers.vendetta`)
-    exec(`adb shell am start -n dev.beefers.vendetta/com.discord.main.MainActivity`)
+
+    const isXposed = execSync(`adb shell "pm list packages | grep com.vendetta.xposed"`).length > 0
+
+    const pkgName = isXposed ? "com.discord" : "dev.beefers.vendetta"
+    exec(`adb shell am force-stop ${pkgName}`)
+    exec(`adb shell am start -n ${pkgName}/com.discord.main.MainActivity`)
 }
