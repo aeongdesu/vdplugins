@@ -7,6 +7,10 @@ export const sendBotMessage = (channelID: number, message: string) => ClydeUtils
 
 export const nicething = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
+export const getOption = (args: any[], name: string) => {
+    return args.find(x => x.name == name)?.value
+}
+
 type SettingsType = {
     clientID: string,
     clientSecret: string,

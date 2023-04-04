@@ -71,7 +71,7 @@ export const getBeatmap = async (beatmap: string) => {
 }
 
 export const getUser = async (user?: string) => {
-    if (!settings.user) return
+    if (!user && !settings.user) return
     if (!user) user = settings.user
     if (isNaN(parseFloat(user))) {
         const match = user.match(osu_profile_pattern)
@@ -107,4 +107,17 @@ export const getUser = async (user?: string) => {
         country_rank: nicething(country_rank),
         pp: data.statistics.pp as string
     }
+}
+
+export const getRecent = async (user?: string, type?: string) => {
+    if (!user && !settings.user) return
+    if (!user) user = settings.user
+    if (isNaN(parseFloat(user))) {
+        const match = user.match(osu_profile_pattern)
+        if (match) user = match[match.length - 1]
+    }
+    const userdata = await getUser(user)
+    if (!userdata) return
+    const data = await fetchApi(`https://osu.ppy.sh/api/v2/users/${userdata.id}/scores/recent?include_fails=1&mode=osu&limit=5&offset=1`)
+    return data
 }

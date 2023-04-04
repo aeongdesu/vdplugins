@@ -1,6 +1,6 @@
 import { registerCommand } from "@vendetta/commands"
-import { settings, sendBotMessage } from "../utils"
-import { getBeatmap } from "../osuapi"
+import { settings, sendBotMessage, getOption } from "../utils"
+import { getRecent } from "../osuapi"
 
 export default registerCommand({
     name: "osu-recent",
@@ -21,9 +21,9 @@ export default registerCommand({
 
     execute: async (args, ctx) => {
         if (!settings.clientID || isNaN(parseFloat(settings.clientID)) || !settings.clientSecret) return sendBotMessage(ctx.channel.id, "Please set apiv2 configuration in plugin settings.")
-        const beatmap = await getBeatmap(args[0].value)
-        if (!beatmap) return sendBotMessage(ctx.channel.id, "Invalid Beatmap.")
+        const recent = await getRecent(args[0].value)
+        if (!recent) return sendBotMessage(ctx.channel.id, "Invalid User / No recent scores")
 
-        return sendBotMessage(ctx.channel.id, `${beatmap.status} | ${beatmap.title} - ${beatmap.version}`)
+        return sendBotMessage(ctx.channel.id, JSON.stringify(recent))
     }
 })

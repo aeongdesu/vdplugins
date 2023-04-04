@@ -1,7 +1,7 @@
 import { registerCommand } from "@vendetta/commands"
 import { settings, sendBotMessage } from "../utils"
 import { getUser } from "../osuapi"
-import { nicething } from "../utils"
+import { nicething, getOption } from "../utils"
 
 export default registerCommand({
     name: "osu-profile",
@@ -29,11 +29,8 @@ export default registerCommand({
     type: 1,
 
     execute: async (args, ctx) => {
-        const getOption = (name: string) => {
-            return args.find(x => x.name == name)?.value
-        }
         if (!settings.clientID || isNaN(parseFloat(settings.clientID)) || !settings.clientSecret) return sendBotMessage(ctx.channel.id, "Please set apiv2 configuration in plugin settings.")
-        const user = await getUser(getOption("profile"))
+        const user = await getUser(getOption(args, "profile"))
         if (!user) return sendBotMessage(ctx.channel.id, "Invalid User.")
         let content: Array<string>
 
@@ -49,7 +46,7 @@ export default registerCommand({
             `> Ranks: **SSH** \`${user.grades.ssh}\` **SS** \`${user.grades.ss}\` **SH** \`${user.grades.sh}\` **S** \`${user.grades.s}\` **A** \`${user.grades.a}\``,
             `> Joined osu! <t:${user.join_date}:f>`
         ]
-        if (getOption("send") === true) return { content: content.join("\n") }
+        if (getOption(args, "send") === true) return { content: content.join("\n") }
         else return sendBotMessage(ctx.channel.id, content.join("\n"))
     }
 })
