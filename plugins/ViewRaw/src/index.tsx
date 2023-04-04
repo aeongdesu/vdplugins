@@ -4,8 +4,6 @@ import { findByProps as getByProps, findByName } from "@vendetta/metro"
 import { Forms } from "@vendetta/ui/components"
 import RawPage from "./RawPage"
 
-export let message: any
-
 const ActionSheet = getByProps("openLazy", "hideActionSheet")
 const Navigation = getByProps("push", "pushLazy", "pop")
 const DiscordNavigator = getByProps("getRenderCloseButton")
@@ -18,10 +16,11 @@ const unpatch = before("openLazy", ActionSheet, (ctx) => {
     if (args != "MessageLongPressActionSheet") return
     component.then(instance => {
         const unpatch = after("default", instance, (_, component) => {
-            const [msgProps, oldbuttons] = component.props?.children?.props?.children?.props?.children
-            if (!msgProps) message = actionMessage.message
-            else message = msgProps.props.message
-            if (!oldbuttons) return
+            const [msgProps, oldButtons] = component.props?.children?.props?.children?.props?.children
+
+            if (!oldButtons) return
+            
+            const message = msgProps?.props.message ?? actionMessage.message
             const navigator = () => (
                 <Navigator
                     initialRouteName="RawPage"
@@ -30,13 +29,13 @@ const unpatch = before("openLazy", ActionSheet, (ctx) => {
                         RawPage: {
                             title: "ViewRaw",
                             headerLeft: getRenderCloseButton(() => Navigation.pop()),
-                            render: RawPage
+                            render: () => <RawPage message={message} />
                         }
                     }}
                 />
             )
             
-            component.props.children.props.children.props.children[1] = [...oldbuttons,
+            component.props.children.props.children.props.children[1] = [...oldButtons,
             <FormRow
                 label="View Raw"
                 leading={<Icon source={getAssetId("ic_chat_bubble_16px")} />}
