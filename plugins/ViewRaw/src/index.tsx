@@ -18,9 +18,10 @@ const unpatch = before("openLazy", ActionSheet, (ctx) => {
         const unpatch = after("default", instance, (_, component) => {
             const [msgProps, oldButtons] = component.props?.children?.props?.children?.props?.children
 
-            if (!oldButtons) return
+            const message = msgProps?.props?.message ?? actionMessage?.message
+
+            if (!oldButtons || !message) return
             
-            const message = msgProps?.props.message ?? actionMessage.message
             const navigator = () => (
                 <Navigator
                     initialRouteName="RawPage"
