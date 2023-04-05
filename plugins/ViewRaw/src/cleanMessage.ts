@@ -1,4 +1,4 @@
-function sortObject<T extends Object>(obj: T): T {
+function sortObject<T extends object>(obj: T): T {
     return Object.fromEntries(Object.entries(obj).sort(([k1], [k2]) => k1.localeCompare(k2))) as T
 }
 
