@@ -8,8 +8,8 @@ const GuildChannelStore = findByStoreName("GuildChannelStore")
 const ReadStateStore = findByStoreName("ReadStateStore")
 
 const unregisterCommand = registerCommand({
-    name: "markasreadall",
-    displayName: "markasreadall",
+    name: "markallasread",
+    displayName: "markallasread",
     description: "read all server notifications",
     displayDescription: "read all server notifications",
     // @ts-ignore
