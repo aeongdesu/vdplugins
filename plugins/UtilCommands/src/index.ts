@@ -1,6 +1,10 @@
 // https://github.com/Aliucord/AliucordRN/blob/main/src/core-plugins/CoreCommands.ts
 import { registerCommand } from "@vendetta/commands"
 import { findByProps } from "@vendetta/metro"
+import { plugins } from "@vendetta/plugins"
+import { getDebugInfo } from "@vendetta/debug"
+
+const MessageActions = findByProps("sendMessage", "receiveMessage")
 
 enum ApplicationCommandOptionType {
     SUB_COMMAND = 1,
@@ -73,6 +77,35 @@ commands.push(registerCommand({
     execute: (args, ctx) => ClydeUtils.sendBotMessage(ctx.channel.id, args[0].value)
 }))
 
+commands.push(registerCommand({
+    name: "plugins",
+    displayName: "plugins",
+    description: "Lists all installed Vendetta plugins",
+    displayDescription: "Lists all installed Vendetta plugins",
+    options: [],
+    // @ts-ignore
+    applicationId: -1,
+    inputType: 1,
+    type: 1,
+
+    execute: (args, ctx) => {
+        const pluginsList = Object.values(plugins)
+
+        const enabledPlugins = pluginsList.filter(p => p.enabled).map(p => p.manifest.name)
+        const disabledPlugins = pluginsList.filter(p => !p.enabled).map(p => p.manifest.name)
+
+        const message = `
+            **Total plugins**: **${Object.keys(plugins).length}**
+            
+            **Enabled plugins**: **${enabledPlugins.length}**
+            > ${enabledPlugins.join(", ") || "None."}
+            
+            **Disabled plugins**: **${disabledPlugins.length}**
+            > ${disabledPlugins.join(", ") || "None."}`;
+
+        ClydeUtils.sendBotMessage(ctx.channel.id, message.replaceAll("    ", ""))
+    }
+}))
 
 commands.push(registerCommand({
     name: "eval",
@@ -110,6 +143,31 @@ commands.push(registerCommand({
         }
     },
 
+}))
+
+commands.push(registerCommand({
+    name: "debug",
+    displayName: "debug",
+    description: "Posts debug info",
+    displayDescription: "Posts debug info",
+    options: [],
+    // @ts-ignore
+    applicationId: -1,
+    inputType: 1,
+    type: 1,
+
+    execute: (args, ctx) => {
+        const debugInfo = getDebugInfo() as any
+        MessageActions.sendMessage(ctx.channel.id, {
+            content: `**Debug Info:**
+                > Discord: ${debugInfo.discord.version} (${debugInfo.discord.build})
+                > Vendetta: ${debugInfo.vendetta.version} (${Object.keys(plugins).length} plugins)
+                > System: ${debugInfo.os.name} ${debugInfo.os.version} ${debugInfo.os.sdk ? `(SDK v${debugInfo.os.sdk})` : ""} ${debugInfo.device.codename}
+                > React: ${debugInfo.react.version}, Native: ${debugInfo.react.nativeVersion}
+                > Hermes: ${debugInfo.hermes.version} ${debugInfo.hermes.buildType} (v${debugInfo.hermes.bytecodeVersion})
+            `.replace(/^\s+/gm, "")
+        })
+    }
 }))
 
 export const onUnload = () => {
