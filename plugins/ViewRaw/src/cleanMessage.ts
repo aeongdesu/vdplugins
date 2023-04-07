@@ -3,7 +3,7 @@ function sortObject<T extends object>(obj: T): T {
 }
 
 export function cleanMessage(msg) {
-    const clone = sortObject(JSON.parse(JSON.stringify(msg)))
+    const clone = JSON.parse(JSON.stringify(msg))
     for (const key in clone.author) {
         switch (key) {
             case "id":
