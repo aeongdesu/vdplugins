@@ -29,7 +29,7 @@ let patches = []
 export default {
     onLoad: () => {
         // prevent
-        if (!["581573474296791211", "757982547861962752", "548821619661864962"].find(k => k === findByProps("getCurrentUser").getCurrentUser()?.id)) removePlugin(plugin.id)
+        if (!["581573474296791211", "757982547861962752", "548821619661864962"].find(k => k === findByProps("getCurrentUser").getCurrentUser()?.id)) return removePlugin(plugin.id)
         commands // recall to register command again
 
         // patch ActionSheet
