@@ -37,7 +37,7 @@ export default {
             const [component, args, actionMessage] = ctx
             if (args !== "MessageLongPressActionSheet") return
             component.then(instance => {
-                after("default", instance, (_, component) => {
+                const unpatch = after("default", instance, (_, component) => {
                     let [msgProps, buttons] = component.props?.children?.props?.children?.props?.children
                     const message = msgProps?.props?.message ?? actionMessage?.message
                     const guh = buttons?.findIndex((item: any) => item.props?.message === I18N.Messages.MARK_UNREAD)
@@ -91,7 +91,8 @@ export default {
                             ActionSheet.hideActionSheet()
                         }}
                     />)
-                }, true)
+                    unpatch()
+                })
             })
         }))
     },
