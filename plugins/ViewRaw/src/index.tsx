@@ -15,7 +15,7 @@ const unpatch = before("openLazy", ActionSheet, (ctx) => {
     const [component, args, actionMessage] = ctx
     if (args != "MessageLongPressActionSheet") return
     component.then(instance => {
-        const unpatch = after("default", instance, (_, component) => {
+        after("default", instance, (_, component) => {
             const [msgProps, oldButtons] = component.props?.children?.props?.children?.props?.children
 
             const message = msgProps?.props?.message ?? actionMessage?.message
@@ -45,9 +45,9 @@ const unpatch = before("openLazy", ActionSheet, (ctx) => {
                     Navigation.push(navigator)
                 }}
             />]
-            unpatch()
-        })
+        }, true)
     })
+    unpatch()
 })
 
 export const onUnload = () => unpatch()
