@@ -1,5 +1,5 @@
 import { findByProps, findByName, findByStoreName } from "@vendetta/metro"
-import { FluxDispatcher } from "@vendetta/metro/common"
+import { FluxDispatcher, React } from "@vendetta/metro/common"
 import { getAssetIDByName } from "@vendetta/ui/assets"
 import { Format, Translate, settings } from "./common"
 import { Forms } from "@vendetta/ui/components"
@@ -8,8 +8,9 @@ import { before, after } from "@vendetta/patcher"
 import LanguageNamesArray from "./translate/languages/names"
 import ISO from "./translate/languages/iso"
 import { commands, Settings } from "./components"
+
 // temp
-import { removePlugin } from "@vendetta/plugins"
+import { stopPlugin } from "@vendetta/plugins"
 import { plugin } from "@vendetta"
 
 const ActionSheet = findByProps("openLazy", "hideActionSheet")
@@ -29,19 +30,20 @@ let patches = []
 export default {
     onLoad: () => {
         // prevent
-        if (!["581573474296791211", "757982547861962752", "548821619661864962"].find(k => k === findByProps("getCurrentUser").getCurrentUser()?.id)) return removePlugin(plugin.id)
+        if (!["581573474296791211", "757982547861962752", "548821619661864962"].find(k => k === findByProps("getCurrentUser").getCurrentUser()?.id)) return stopPlugin(plugin.id)
         commands // recall to register command again
 
         // patch ActionSheet
         patches.push(before("openLazy", ActionSheet, (ctx) => {
             const [component, args, actionMessage] = ctx
             if (args !== "MessageLongPressActionSheet") return
-            component.then(instance => {
+            component.then((instance: any) => {
                 const unpatch = after("default", instance, (_, component) => {
+                    React.useEffect(() => () => { unpatch() }, [])
                     let [msgProps, buttons] = component.props?.children?.props?.children?.props?.children
                     const message = msgProps?.props?.message ?? actionMessage?.message
                     const guh = buttons?.findIndex((item: any) => item.props?.message === I18N.Messages.MARK_UNREAD)
-                    if (!buttons || !message || !guh) return
+                    if (!buttons || !message || guh === -1) return
 
                     const originalMessage = MessageStore.getMessage(
                         message.channel_id,
@@ -91,7 +93,6 @@ export default {
                             ActionSheet.hideActionSheet()
                         }}
                     />)
-                    unpatch()
                 })
             })
         }))

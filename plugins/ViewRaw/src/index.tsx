@@ -14,7 +14,7 @@ const { FormRow } = Forms
 
 const unpatch = before("openLazy", ActionSheet, (ctx) => {
     const [component, args, actionMessage] = ctx
-    if (args != "MessageLongPressActionSheet") return
+    if (args !== "MessageLongPressActionSheet") return
     component.then(instance => {
         const unpatch = after("default", instance, (_, component) => {
             React.useEffect(() => () => { unpatch() }, []) // omg!!!!!!!!!!!!!
