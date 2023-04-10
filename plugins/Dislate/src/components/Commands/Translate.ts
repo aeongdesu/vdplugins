@@ -3,6 +3,7 @@ import LanguageNames from "../../translate/languages/names"
 import { Format } from "../../common"
 import ISO from "../../translate/languages/iso"
 import { Translate, settings, ClydeUtils } from "../../common"
+import { ApplicationCommandType, ApplicationCommandInputType, ApplicationCommandOptionType } from "../../def"
 
 const languageOptions = LanguageNames.filter((e: string) => e !== 'detect')
     .map((item: string) => ({
