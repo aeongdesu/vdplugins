@@ -1,4 +1,3 @@
-import { ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType } from "../../def"
 import { registerCommand } from "@vendetta/commands"
 import LanguageNames from "../../translate/languages/names"
 import { Format } from "../../common"
