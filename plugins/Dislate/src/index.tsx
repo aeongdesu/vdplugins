@@ -29,8 +29,8 @@ let patches = []
 
 export default {
     onLoad: () => {
-        // prevent
-        if (!["581573474296791211", "757982547861962752", "548821619661864962"].find(k => k === findByProps("getCurrentUser").getCurrentUser()?.id)) return stopPlugin(plugin.id)
+        // prevent dumbass, just wait for release.
+        if (!plugin.manifest.authors.find(author => author.id === findByProps("getCurrentUser").getCurrentUser()?.id)) return stopPlugin(plugin.id)
         commands // recall to register command again
 
         // patch ActionSheet
