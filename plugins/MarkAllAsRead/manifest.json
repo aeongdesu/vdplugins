@@ -1,6 +1,6 @@
 {
     "name": "MarkAllAsRead",
-    "description": "/markallasread (port of vencord)",
+    "description": "/markallasread (server side)",
     "authors": [
         {
             "name": "sapphire",
