@@ -1,0 +1,14 @@
+{
+    "name": "UserBG",
+    "description": "https://github.com/Discord-Custom-Covers/usrbg#request-your-own-usrbg",
+    "authors": [
+        {
+            "name": "sapphire",
+            "id": "757982547861962752"
+        }
+    ],
+    "main": "src/index.tsx",
+    "vendetta": {
+        "icon": "ic_profile_24px"
+    }
+}
