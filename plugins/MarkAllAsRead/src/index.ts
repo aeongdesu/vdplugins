@@ -1,6 +1,7 @@
 import { findByStoreName, findByProps } from "@vendetta/metro"
 import { FluxDispatcher } from "@vendetta/metro/common"
 import { registerCommand } from "@vendetta/commands"
+import { logger } from "@vendetta"
 
 const ClydeUtils = findByProps("sendBotMessage")
 const GuildStore = findByStoreName("GuildStore")
@@ -17,7 +18,7 @@ const unregisterCommand = registerCommand({
     inputType: 1,
     type: 1,
 
-    execute: (args, ctx) => {
+    execute: async (args, ctx) => {
         try {
             const channels: Array<any> = []
 
@@ -26,21 +27,21 @@ const unregisterCommand = registerCommand({
                     if (!ReadStateStore.hasUnread(c.channel.id)) return
 
                     channels.push({
-                        channelId: c.channel.id,
-                        // messageId: c.channel?.lastMessageId,
-                        messageId: ReadStateStore.lastMessageId(c.channel.id),
-                        readStateType: 0
+                        channel_id: c.channel.id,
+                        message_id: ReadStateStore.lastMessageId(c.channel.id)
                     })
                 })
             })
 
-            FluxDispatcher.dispatch({
-                type: "BULK_ACK",
-                context: "APP",
-                channels: channels
+            await findByProps("setRequestPatch").default.post({
+                url: findByProps("Endpoints").Endpoints.BULK_ACK,
+                body: {
+                    "read_states": channels.slice(0, 100)
+                }
             })
             ClydeUtils.sendBotMessage(ctx.channel.id, "Done!")
-        } catch {
+        } catch (e) {
+            logger.error(e)
             ClydeUtils.sendBotMessage(ctx.channel.id, "Failed to read all server notifications")
         }
     }
