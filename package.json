@@ -14,7 +14,7 @@
 		"esbuild": "^0.17.16",
 		"rollup": "^3.20.2",
 		"rollup-plugin-esbuild": "^5.0.0",
-		"vendetta-types": "^2.4.14"
+		"vendetta-types": "^2.4.16"
 	},
 	"pnpm": {
 		"peerDependencyRules": {

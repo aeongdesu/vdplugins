@@ -1,13 +1,12 @@
-import { React, ReactNative, stylesheet as Styles, url, constants } from "@vendetta/metro/common"
-import { Forms } from "@vendetta/ui/components"
-import { semanticColors } from "@vendetta/ui"
+import { getAssetIDByName } from "@vendetta/ui/assets"
+import { React, ReactNative } from "@vendetta/metro/common"
+import { Forms, Search } from "@vendetta/ui/components"
+import LanguageNames from "../../translate/languages/names"
 import { settings } from "../../common"
-import { findByName } from "@vendetta/metro"
+import { showToast } from "@vendetta/ui/toasts"
 
 const { ScrollView, Text } = ReactNative
-const { FormSection, FormInput, FormDivider } = Forms
-
-const Search = findByName("StaticSearchBarContainer")
+const { FormRow } = Forms
 
 export default () => {
     const [query, setQuery] = React.useState("")
@@ -15,12 +14,21 @@ export default () => {
     return (
         <ScrollView>
             <Search
+                style={{ padding: 15 }}
                 placeholder="Search Language"
                 onChangeText={(text: string) => {
                     setQuery(text)
                 }}
             />
-            
+            {Object.values(LanguageNames).filter((e: string) => e !== "detect").filter(i => i.includes(query)).map((i, id) => <FormRow
+                label={i}
+                trailing={() => <FormRow.Arrow />}
+                onPress={() => {
+                    if (settings.DislateLangFrom === i) return
+                    settings.DislateLangTo = i
+                    showToast(`Saved ToLang to ${settings.DislateLangTo}`, getAssetIDByName("check"))
+                }}
+            />)}
         </ScrollView>
     )
 }
