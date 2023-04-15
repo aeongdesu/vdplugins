@@ -51,7 +51,7 @@ const unregisterCommand = registerCommand({
     applicationId: "-1",
 
     async execute(args, ctx) {
-        if (!plugin.manifest.authors.find(author => author.id === findByProps("getCurrentUser").getCurrentUser()?.id)) return
+        // if (!plugin.manifest.authors.find(author => author.id === findByProps("getCurrentUser").getCurrentUser()?.id)) return
         const data = await fetch("https://free.churchless.tech/v1/chat/completions", {
             method: "POST",
             body: JSON.stringify({
