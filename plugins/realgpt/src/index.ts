@@ -73,7 +73,7 @@ const unregisterCommand = registerCommand({
         })
         if (!data.ok) return sendBotMessage(ctx.channel.id, "Failed to fetch data")
         const real = await data.json()
-        return sendBotMessage(ctx.channel.id, `> USER: ${args[0].value}\n> model: \`${real.model}\`\n\n${real.choices[0].message.content}`)
+        return sendBotMessage(ctx.channel.id, `> prompt: ${args[0].value}\n> model: \`${real.model}\`\n\n${real.choices[0].message.content}`)
     }
 })
 
