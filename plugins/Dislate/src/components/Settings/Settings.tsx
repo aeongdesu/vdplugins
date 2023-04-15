@@ -24,7 +24,7 @@ export default () => {
                 label={i}
                 trailing={() => <FormRow.Arrow />}
                 onPress={() => {
-                    if (settings.DislateLangFrom === i) return
+                    if (settings.DislateLangTo == i) return
                     settings.DislateLangTo = i
                     showToast(`Saved ToLang to ${settings.DislateLangTo}`, getAssetIDByName("check"))
                 }}
