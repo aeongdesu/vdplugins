@@ -1,0 +1,18 @@
+{
+    "name": "realgpt",
+    "description": "not even real",
+    "authors": [
+        {
+            "name": "sapphire",
+            "id": "757982547861962752"
+        },
+        {
+            "name": "dumbass",
+            "id": "548821619661864962"
+        }
+    ],
+    "main": "src/index.ts",
+    "vendetta": {
+        "icon": "clyde-avatar"
+    }
+}
