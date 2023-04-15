@@ -1,6 +1,5 @@
-import { logger } from "@vendetta"
-import { findByName } from "@vendetta/metro"
-import { before } from "@vendetta/patcher"
+import { findByName, findByStoreName, findByProps } from "@vendetta/metro"
+import { before, after } from "@vendetta/patcher"
 
 let patches = []
 
@@ -11,7 +10,6 @@ type userBGData = {
     orientation: string
 }
 
-const HeaderAvatar = findByName("HeaderAvatar", false)
 const ProfileBanner = findByName("ProfileBanner", false)
 
 export const onLoad = async () => {
@@ -21,22 +19,18 @@ export const onLoad = async () => {
     })
 
     patches = [
-        before("default", HeaderAvatar, (ctx: any) => {
-            const userid = ctx[0]?.user?.id
+        before("getUserBannerURL", findByProps("default", "getUserBannerURL"), (args) => {
+            const userid = args[0]?.id
             const unpatch = before("default", ProfileBanner, (ctx: any) => {
                 const banner = ctx[0]
-                try {
-                    if (!banner.bannerSource) {
-                        const customBanner = datab.find((i: userBGData) => i.uid === userid) as userBGData
-                        if (customBanner) {
-                            banner.bannerSource = { uri: customBanner.img }
-                        }
+                if (!banner.bannerSource) {
+                    const customBanner = datab.find((i: userBGData) => i.uid === userid) as userBGData
+                    if (customBanner) {
+                        banner.bannerSource = { uri: customBanner.img }
                     }
-                } catch (e) {
-                    logger.error("UserBG Error:", e)
                 }
                 unpatch()
-            })
+            }, true)
         })
     ]
 }
