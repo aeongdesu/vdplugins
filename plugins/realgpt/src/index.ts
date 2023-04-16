@@ -33,6 +33,8 @@ export const enum ApplicationCommandType {
     MESSAGE
 }
 
+const agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
+
 const unregisterCommand = registerCommand({
     name: "realgpt",
     displayName: "realgpt",
@@ -68,7 +70,8 @@ const unregisterCommand = registerCommand({
                 }]
             }),
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "user-agent": agent
             }
         })
         if (!data.ok) {
@@ -78,7 +81,8 @@ const unregisterCommand = registerCommand({
                     prompt: args[0].value
                 }),
                 headers: {
-                    "content-type": "application/json"
+                    "content-type": "application/json",
+                    "user-agent": agent
                 }
             })
             if (!cdata.ok) return sendBotMessage(ctx.channel.id, "Failed to fetch data")
