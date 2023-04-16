@@ -12,9 +12,9 @@ type userBGData = {
 
 fetchDB().then(res => res)
 
-const unpatch = after("getUserBannerURL", findByProps("default", "getUserBannerURL"), ([user], args) => {
-    const customBanner = data?.find((i: userBGData) => i.uid === user.id) as userBGData
-    if (user && customBanner) return customBanner.img
+const unpatch = after("getUserBannerURL", findByProps("default", "getUserBannerURL"), ([user]) => {
+    const customBanner = data?.find((i: userBGData) => i.uid === user?.id) as userBGData
+    if (!user?.banner && customBanner) return customBanner.img
 })
 
 export const onUnload = () => unpatch()
