@@ -71,7 +71,23 @@ const unregisterCommand = registerCommand({
                 "content-type": "application/json"
             }
         })
-        if (!data.ok) return sendBotMessage(ctx.channel.id, "Failed to fetch data")
+        if (!data.ok) {
+            const cdata = await fetch("https://chatbot.theb.ai/api/chat-process", {
+                method: "POST",
+                body: JSON.stringify({
+                    prompt: args[0].value
+                }),
+                headers: {
+                    "content-type": "application/json"
+                }
+            })
+            if (!cdata.ok) return sendBotMessage(ctx.channel.id, "Failed to fetch data")
+            const creal = await cdata.text()
+            const result = JSON.parse(creal.split("\n").pop())
+            return sendBotMessage(ctx.channel.id, `> prompt: ${args[0].value}\n> model: \`${result.detail.model}\`\n\n${result.text}`)
+        }
+
+
         const real = await data.json()
         return sendBotMessage(ctx.channel.id, `> prompt: ${args[0].value}\n> model: \`${real.model}\`\n\n${real.choices[0].message.content}`)
     }
