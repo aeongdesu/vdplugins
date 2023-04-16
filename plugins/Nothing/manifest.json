@@ -1,0 +1,14 @@
+{
+    "name": "",
+    "description": "",
+    "authors": [
+        {
+            "name": "",
+            "id": ""
+        }
+    ],
+    "main": "index.ts",
+    "vendetta": {
+        "icon": ""
+    }
+}
