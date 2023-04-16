@@ -24,26 +24,26 @@ const unregisterCommand = registerCommand({
 
     execute: async (args, ctx) => {
         try {
-            const channels: Array<any> = []
+            const channels: any[] = []
 
             Object.values(GuildStore.getGuilds()).forEach((guild: any) => {
-                GuildChannelStore.getChannels(guild.id).SELECTABLE.forEach((c: { channel: { id: string } }) => {
-                    if (!ReadStateStore.hasUnread(c.channel.id)) return
+                if (!UserGuildSettingsStore.isMuted(guild.id))
+                    GuildChannelStore.getChannels(guild.id).SELECTABLE.forEach((c: { channel: { id: string } }) => {
+                        if (!ReadStateStore.hasUnread(c.channel.id)) return
 
-                    channels.push({
-                        channel_id: c.channel.id,
-                        message_id: ReadStateStore.lastMessageId(c.channel.id)
+                        channels.push({
+                            channel_id: c.channel.id,
+                            message_id: ReadStateStore.lastMessageId(c.channel.id)
+                        })
                     })
-                })
             })
 
-            const readNOW = async (channels) => await post({
+            const readNOW = async (channels: any[]) => await post({
                 url: Endpoints.BULK_ACK,
                 body: {
                     "read_states": channels
                 }
             })
-
             if (channels.length < 100) {
                 await readNOW(channels)
                 return ClydeUtils.sendBotMessage(ctx.channel.id, "Done!")
