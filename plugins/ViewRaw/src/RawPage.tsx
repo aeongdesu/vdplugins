@@ -22,8 +22,8 @@ export default function RawPage({ message }) {
                 size="small"
                 disabled={!message.content}
                 onPress={() => {
-                    clipboard.setString(message.content);
-                    showToast("Copied content to clipboard", getAssetId("toast_copy_link"));
+                    clipboard.setString(message.content)
+                    showToast("Copied content to clipboard", getAssetId("toast_copy_link"))
                 }}
             />
             <Button
