@@ -4,7 +4,7 @@
 - [Dashless](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/Dashless)
 - [DisableSwipeToReply](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/DisableSwipeToReply)
 - [SlowmodeExtended](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/SlowmodeExtended)
-- [Utilcommands](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/UtilCommands)
+- [UtilCommands](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/UtilCommands)
 - [ViewRaw](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/ViewRaw) ⭐️
 - [MarkAllAsRead](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/MarkAllAsRead/)
 
