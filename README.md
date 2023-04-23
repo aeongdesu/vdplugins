@@ -8,6 +8,7 @@
 - [UtilCommands](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/UtilCommands)
 - [ViewRaw](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/ViewRaw) ⭐️
 - [MarkAllAsRead](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/MarkAllAsRead/)
+- [UserBG](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/UserBG)
 
 ## not proxied
 - [ ](https://aeongdesu.github.io/vdplugins/Nothing)
