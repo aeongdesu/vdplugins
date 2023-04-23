@@ -1,6 +1,6 @@
 {
     "name": "ViewRaw",
-    "description": "View raw message data (port of my aliucord plugin)",
+    "description": "View raw message data",
     "authors": [
         {
             "name": "sapphire",
