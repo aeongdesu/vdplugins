@@ -1,5 +1,6 @@
 # [Go to repo](https://github.com/aeongdesu/vdplugins)
 
+## proxied
 - [BypassNSFWGate](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/BypassNSFWGate)
 - [Dashless](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/Dashless)
 - [DisableSwipeToReply](https://vd-plugins.github.io/proxy/aeongdesu.github.io/vdplugins/DisableSwipeToReply)
@@ -10,4 +11,3 @@
 
 ## not proxied
 - [ ](https://aeongdesu.github.io/vdplugins/Nothing)
-- [realgpt](https://aeongdesu.github.io/vdplugins/realgpt)
