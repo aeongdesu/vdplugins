@@ -10,6 +10,7 @@
     },
     "include": [
         "plugins",
-        "node_modules/vendetta-types"
+        "node_modules/vendetta-types",
+        "ApplicationCommandTypes.ts"
     ]
 }

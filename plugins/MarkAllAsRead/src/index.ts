@@ -4,6 +4,8 @@ import { logger } from "@vendetta"
 import { showToast } from "@vendetta/ui/toasts"
 import { getAssetIDByName } from "@vendetta/ui/assets"
 
+import { ApplicationCommandType, ApplicationCommandInputType, ApplicationCommandOptionType } from "../../../ApplicationCommandTypes"
+
 const ClydeUtils = findByProps("sendBotMessage")
 const GuildStore = findByStoreName("GuildStore")
 const GuildChannelStore = findByStoreName("GuildChannelStore")
@@ -19,8 +21,8 @@ const unregisterCommand = registerCommand({
     displayDescription: "read all server notifications",
     options: [],
     applicationId: "",
-    inputType: 1,
-    type: 1,
+    inputType: ApplicationCommandInputType.BUILT_IN_TEXT as number,
+    type: ApplicationCommandType.CHAT as number,
 
     execute: async (args, ctx) => {
         try {

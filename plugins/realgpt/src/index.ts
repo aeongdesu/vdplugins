@@ -5,33 +5,7 @@ import { stopPlugin } from "@vendetta/plugins"
 
 const { sendBotMessage } = findByProps("sendBotMessage")
 
-export const enum ApplicationCommandInputType {
-    BUILT_IN,
-    BUILT_IN_TEXT,
-    BUILT_IN_INTEGRATION,
-    BOT,
-    PLACEHOLDER
-}
-
-export const enum ApplicationCommandOptionType {
-    SUB_COMMAND = 1,
-    SUB_COMMAND_GROUP,
-    STRING,
-    INTEGER,
-    BOOLEAN,
-    USER,
-    CHANNEL,
-    ROLE,
-    MENTIONABLE,
-    NUMBER,
-    ATTACHMENT
-}
-
-export const enum ApplicationCommandType {
-    CHAT = 1,
-    USER,
-    MESSAGE
-}
+import { ApplicationCommandType, ApplicationCommandInputType, ApplicationCommandOptionType } from "../../../ApplicationCommandTypes"
 
 const agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
 

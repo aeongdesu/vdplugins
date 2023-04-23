@@ -9,7 +9,7 @@ import { LanguageType } from "../def"
  * @param {boolean} cancel: Toggles translation. If false will return untranslated text.
  * @returns {string text}
  */
-async function string(text: string, { fromLanguage = 'detect', toLanguage = 'english' }: LanguageType, languages, cancel?: boolean): Promise<string> {
+async function string(text: string, { fromLanguage = "detect", toLanguage = "english" }: LanguageType, languages, cancel?: boolean): Promise<string> {
     /**
      * Returns the original string early if @arg cancel is @arg true.
      */

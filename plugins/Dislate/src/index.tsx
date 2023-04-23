@@ -12,6 +12,7 @@ import { commands, Settings } from "./components"
 // temp
 import { stopPlugin } from "@vendetta/plugins"
 import { plugin } from "@vendetta"
+import { showConfirmationAlert } from "@vendetta/ui/alerts"
 
 const ActionSheet = findByProps("openLazy", "hideActionSheet")
 const Icon = findByName("Icon")
@@ -29,8 +30,6 @@ let patches = []
 
 export default {
     onLoad: () => {
-        // prevent dumbass, just wait for release.
-        if (!plugin.manifest.authors.find(author => author.id === findByProps("getCurrentUser").getCurrentUser()?.id)) return stopPlugin(plugin.id)
         commands // recall to register command again
 
         // patch ActionSheet
@@ -56,42 +55,58 @@ export default {
                     const existingCachedObject = cachedData.find((o: any) => Object.keys(o)[0] === messageId, "cache object")
 
                     let translateType = existingCachedObject ? "Revert" : "Translate"
+
+                    const translate = async (from?: string) => {
+                        const fromLanguage = from ?? settings.DislateLangFrom
+                        const toLanguage = settings.DislateLangTo
+                        const isTranslated = translateType === "Translate"
+                        const translate = await Translate.string(originalMessage.content,
+                            {
+                                fromLanguage: fromLanguage,
+                                toLanguage: toLanguage
+                            },
+                            LanguageNames,
+                            !isTranslated)
+                        FluxDispatcher.dispatch({
+                            type: "MESSAGE_UPDATE",
+                            message: {
+                                ...originalMessage,
+                                content: `${isTranslated ? translate : (existingCachedObject as object)[messageId]}`
+                                    + ` ${isTranslated ? `\`[${settings.DislateLangAbbr
+                                        ? (LanguageNames[toLanguage]).toUpperCase()
+                                        : Format.string(toLanguage)}]\``
+                                        : ""}`,
+                                guild_id: ChannelStore.getChannel(
+                                    originalMessage.channel_id
+                                ).guild_id,
+                            },
+                            log_edit: false
+                        })
+
+                        isTranslated
+                            ? cachedData.unshift({ [messageId]: messageContent })
+                            : cachedData = cachedData.filter((e: any) => e !== existingCachedObject, "cached data override")
+                    }
+
                     buttons.splice(guh, 0, <FormRow
                         label={`${translateType} Message`}
                         leading={<Icon source={translateType === "Translate" ? getAssetIDByName("ic_locale_24px") : getAssetIDByName("ic_highlight")} />}
                         onPress={async () => {
-                            const fromLanguage = settings.DislateLangFrom
-                            const toLanguage = settings.DislateLangTo
-                            const isTranslated = translateType === "Translate"
-                            const translate = await Translate.string(originalMessage.content,
-                                {
-                                    fromLanguage: fromLanguage,
-                                    toLanguage: toLanguage
-                                },
-                                LanguageNames,
-                                !isTranslated)
-                            FluxDispatcher.dispatch({
-                                type: "MESSAGE_UPDATE",
-                                message: {
-                                    ...originalMessage,
-                                    content: `${isTranslated ? translate : (existingCachedObject as object)[messageId]}`
-                                        + ` ${isTranslated ? `\`[${settings.DislateLangAbbr
-                                            ? (LanguageNames[toLanguage]).toUpperCase()
-                                            : Format.string(toLanguage)}]\``
-                                            : ""}`,
-                                    guild_id: ChannelStore.getChannel(
-                                        originalMessage.channel_id
-                                    ).guild_id,
-                                },
-                                log_edit: false
-                            })
-
-                            isTranslated
-                                ? cachedData.unshift({ [messageId]: messageContent })
-                                : cachedData = cachedData.filter((e: any) => e !== existingCachedObject, "cached data override")
-
+                            await translate()
                             ActionSheet.hideActionSheet()
                         }}
+                        /* work in progress | note: create actionsheet and show like ToLang page
+                        onLongPress={() => {
+                            showConfirmationAlert({ // temp
+                                title: "Translate from",
+                                content: (<></>),
+                                onConfirm: async () => {
+                                    await translate("english")
+                                    ActionSheet.hideActionSheet()
+                                }
+                            })
+                        }}
+                        */
                     />)
                 })
             })

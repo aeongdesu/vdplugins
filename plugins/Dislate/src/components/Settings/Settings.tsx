@@ -1,34 +1,51 @@
 import { getAssetIDByName } from "@vendetta/ui/assets"
-import { React, ReactNative } from "@vendetta/metro/common"
-import { Forms, Search } from "@vendetta/ui/components"
-import LanguageNames from "../../translate/languages/names"
+import { React, ReactNative, stylesheet, constants, NavigationNative, url } from "@vendetta/metro/common"
+import { semanticColors } from "@vendetta/ui"
+import { Forms } from "@vendetta/ui/components"
+import { manifest } from "@vendetta/plugin"
 import { settings } from "../../common"
-import { showToast } from "@vendetta/ui/toasts"
+
+import ToLang from "./ToLang"
 
 const { ScrollView, Text } = ReactNative
 const { FormRow } = Forms
 
+const styles = stylesheet.createThemedStyleSheet({
+    subheaderText: {
+        color: semanticColors.HEADER_SECONDARY,
+        textAlign: 'center',
+        margin: 10,
+        marginBottom: 50,
+        letterSpacing: 0.25,
+        fontFamily: constants.Fonts.PRIMARY_BOLD,
+        fontSize: 14
+    }
+})
+
 export default () => {
-    const [query, setQuery] = React.useState("")
+    const navigation = NavigationNative.useNavigation()
 
     return (
         <ScrollView>
-            <Search
-                style={{ padding: 15 }}
-                placeholder="Search Language"
-                onChangeText={(text: string) => {
-                    setQuery(text)
-                }}
-            />
-            {Object.values(LanguageNames).filter((e: string) => e !== "detect").filter(i => i.includes(query)).map((i, id) => <FormRow
-                label={i}
+            {/* work in progress
+            <Text>
+                {"long press button to set translate from"}
+            </Text>
+            */}
+            <FormRow
+                label={"Translate to"}
+                subLabel={settings.DislateLangTo}
+                leading={<FormRow.Icon source={getAssetIDByName("ic_activity_24px")} />}
                 trailing={() => <FormRow.Arrow />}
-                onPress={() => {
-                    if (settings.DislateLangTo == i) return
-                    settings.DislateLangTo = i
-                    showToast(`Saved ToLang to ${settings.DislateLangTo}`, getAssetIDByName("check"))
-                }}
-            />)}
+                onPress={() => navigation.push("VendettaCustomPage", {
+                    title: "Translate to",
+                    render: ToLang,
+                })}
+            />
+
+            <Text style={styles.subheaderText} onPress={() => url.openURL("https://github.com/aeongdesu/vdplugins")}>
+                {`Build: (${manifest.hash.substring(0, 7)})`}
+            </Text>
         </ScrollView>
     )
 }

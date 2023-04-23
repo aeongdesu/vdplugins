@@ -1,11 +1,13 @@
 import { registerCommand } from "@vendetta/commands"
 import LanguageNames from "../../translate/languages/names"
+import { showConfirmationAlert } from "@vendetta/ui/alerts"
 import { Format } from "../../common"
 import ISO from "../../translate/languages/iso"
 import { Translate, settings, ClydeUtils } from "../../common"
-import { ApplicationCommandType, ApplicationCommandInputType, ApplicationCommandOptionType } from "../../def"
+import { Codeblock } from "@vendetta/ui/components"
+import { ApplicationCommandType, ApplicationCommandInputType, ApplicationCommandOptionType } from "../../../../../ApplicationCommandTypes"
 
-const languageOptions = LanguageNames.filter((e: string) => e !== 'detect')
+const languageOptions = LanguageNames.filter((e: string) => e !== "detect")
     .map((item: string) => ({
         name: Format.string(item),
         displayName: Format.string(item),
@@ -56,6 +58,17 @@ export default registerCommand({
             languageMap
         )
         if (!translatedContent) return ClydeUtils.sendBotMessage(context.channel.id, `Failed to translate: ${message}`)
-        return { content: translatedContent }
+
+        return await new Promise((resolve): void => showConfirmationAlert({
+            title: "Are you sure you want to send it?",
+            content: (<>
+                <Codeblock>
+                    {translatedContent}
+                </Codeblock>
+            </>),
+            confirmText: "Yep, send it!",
+            onConfirm: () => resolve({ content: translatedContent }),
+            cancelText: "Nope, don't send it"
+        }))
     }
 })
