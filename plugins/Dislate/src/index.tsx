@@ -1,5 +1,5 @@
 import { findByProps, findByName, findByStoreName } from "@vendetta/metro"
-import { FluxDispatcher, React } from "@vendetta/metro/common"
+import { FluxDispatcher, React, i18n } from "@vendetta/metro/common"
 import { getAssetIDByName } from "@vendetta/ui/assets"
 import { Format, Translate, settings } from "./common"
 import { Forms } from "@vendetta/ui/components"
@@ -9,14 +9,8 @@ import LanguageNamesArray from "./translate/languages/names"
 import ISO from "./translate/languages/iso"
 import { commands, Settings } from "./components"
 
-// temp
-import { stopPlugin } from "@vendetta/plugins"
-import { plugin } from "@vendetta"
-import { showConfirmationAlert } from "@vendetta/ui/alerts"
-
 const ActionSheet = findByProps("openLazy", "hideActionSheet")
 const Icon = findByName("Icon")
-const I18N = findByProps("Messages")
 
 const MessageStore = findByStoreName("MessageStore")
 const ChannelStore = findByStoreName("ChannelStore")
@@ -41,7 +35,7 @@ export default {
                     React.useEffect(() => () => { unpatch() }, [])
                     let [msgProps, buttons] = component.props?.children?.props?.children?.props?.children
                     const message = msgProps?.props?.message ?? actionMessage?.message
-                    const guh = buttons?.findIndex((item: any) => item.props?.message === I18N.Messages.MARK_UNREAD)
+                    const guh = buttons?.findIndex((item: any) => item.props?.message === i18n.Messages.MARK_UNREAD)
                     if (!buttons || !message || guh === -1) return
 
                     const originalMessage = MessageStore.getMessage(
