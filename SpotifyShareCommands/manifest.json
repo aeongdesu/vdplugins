@@ -1,0 +1,1 @@
+{"name":"SpotifyShareCommands","description":"Share your current Spotify track, album or artist via slash command","authors":[{"name":"sapphire","id":"757982547861962752"}],"main":"index.js","vendetta":{"icon":"ic_application_command_24px"},"hash":"c0a45132dca42646dcc1560fa988435cf04bf7f5a713edaad7c61f1683608ea0"}
