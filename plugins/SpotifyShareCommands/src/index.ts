@@ -1,10 +1,9 @@
+// https://github.com/Vendicated/Vencord/blob/main/src/plugins/spotifyShareCommands.ts
 import { registerCommand } from "@vendetta/commands"
 import { findByProps, findByStoreName } from "@vendetta/metro"
 import { ApplicationCommandType, ApplicationCommandInputType } from "../../../ApplicationCommandTypes"
 
 const { sendBotMessage } = findByProps("sendBotMessage")
-// thinking
-// const setText = findByProps("setText")
 const SpotifyStore = findByStoreName("SpotifyStore")
 
 let commands = []
