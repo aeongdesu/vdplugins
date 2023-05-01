@@ -24,7 +24,7 @@ export const PatchChat = before("generate", RowManager.prototype, ([data]) => {
 
     data.message.stickerItems = [{
         id: match[1],
-        format_type: sticker?.format_type ?? 2, // 2 for animate
+        format_type: sticker?.format_type ?? 1,
         name: sticker?.name ?? "realsticker"
     }]
     data.message.content = ""
