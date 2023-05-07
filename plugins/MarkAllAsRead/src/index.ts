@@ -4,15 +4,11 @@ import { logger } from "@vendetta"
 import { showToast } from "@vendetta/ui/toasts"
 import { getAssetIDByName } from "@vendetta/ui/assets"
 
-import { ApplicationCommandType, ApplicationCommandInputType, ApplicationCommandOptionType } from "../../../ApplicationCommandTypes"
+import { ApplicationCommandType, ApplicationCommandInputType } from "../../../ApplicationCommandTypes"
 
 const ClydeUtils = findByProps("sendBotMessage")
-const GuildStore = findByStoreName("GuildStore")
-const GuildChannelStore = findByStoreName("GuildChannelStore")
 const ReadStateStore = findByStoreName("ReadStateStore")
-const { post } = findByProps("setRequestPatch").default
-const { Endpoints } = findByProps("Endpoints")
-const UserGuildSettingsStore = findByStoreName("UserGuildSettingsStore")
+const { bulkAck } = findByProps("bulkAck")
 
 const unregisterCommand = registerCommand({
     name: "markallasread",
@@ -26,41 +22,12 @@ const unregisterCommand = registerCommand({
 
     execute: async (args, ctx) => {
         try {
-            const channels: any[] = []
+            let channels: any[] = []
+            const filter = ReadStateStore.getAllReadStates().filter(m => ReadStateStore.hasUnread(m.channelId)).map(m => ({ channelId: m.channelId, messageId: m._lastMessageId }))
+            channels.push(...filter)
 
-            Object.values(GuildStore.getGuilds()).forEach((guild: any) => {
-                if (!UserGuildSettingsStore.isMuted(guild.id))
-                    GuildChannelStore.getChannels(guild.id).SELECTABLE.forEach((c: { channel: { id: string } }) => {
-                        if (!ReadStateStore.hasUnread(c.channel.id)) return
-
-                        channels.push({
-                            channel_id: c.channel.id,
-                            message_id: ReadStateStore.lastMessageId(c.channel.id)
-                        })
-                    })
-            })
-
-            const readNOW = async (channels: any[]) => await post({
-                url: Endpoints.BULK_ACK,
-                body: {
-                    "read_states": channels
-                }
-            })
-            if (channels.length < 100) {
-                await readNOW(channels)
-                return ClydeUtils.sendBotMessage(ctx.channel.id, "Done!")
-            } else {
-                ClydeUtils.sendBotMessage(ctx.channel.id, "job queued, please do not switch accounts for now.")
-                let index = 0
-                const interval = setInterval(async () => {
-                    await readNOW(channels.slice(index, index + 100))
-                    index += 100
-                    if (index >= channels.length) {
-                        clearInterval(interval)
-                        return showToast("Read all server notifications!", getAssetIDByName("check"))
-                    }
-                }, Math.floor(Math.random() * 2000) + 3000) // 3 ~ 5 seconds
-            }
+            bulkAck(channels)
+            return showToast("Read all server notifications!", getAssetIDByName("check"))
         } catch (e) {
             logger.error(e)
             return ClydeUtils.sendBotMessage(ctx.channel.id, "Failed to read all server notifications")
