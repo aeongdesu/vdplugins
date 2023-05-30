@@ -1,1 +1,0 @@
-(function(e,t,a){"use strict";const o=a.ReactNative.NativeModules.DCDChatManager,r=/(?<=enableSwipeToReply":)(true)/g,c=t.before("updateRows",o,function(n){return n[1]=n[1].replace(r,"false")}),u=function(){return c()};return e.onUnload=u,e})({},vendetta.patcher,vendetta.metro.common);
