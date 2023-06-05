@@ -2,11 +2,10 @@ import { findByProps as getByProps } from "@vendetta/metro"
 import { ReactNative, constants as Constants, clipboard, React } from "@vendetta/metro/common"
 import { showToast } from "@vendetta/ui/toasts"
 import { getAssetIDByName as getAssetId } from "@vendetta/ui/assets"
-import { Codeblock } from "@vendetta/ui/components"
+import { Codeblock, Button } from "@vendetta/ui/components"
 import { cleanMessage } from "./cleanMessage"
 
 const { ScrollView, Text } = ReactNative
-const Button = getByProps("ButtonColors", "ButtonLooks", "ButtonSizes").default as any
 
 export default function RawPage({ message }) {
     const stringMessage = React.useMemo(() => JSON.stringify(cleanMessage(message), null, 4), [message.id])
