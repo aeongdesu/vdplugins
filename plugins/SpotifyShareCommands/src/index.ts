@@ -20,7 +20,7 @@ commands.push(registerCommand({
     execute(args, ctx) {
         const track = SpotifyStore.getTrack()
         if (!track) return sendBotMessage(ctx.channel.id, "You're not listening to any music.")
-        return { content: `https://open.spotify.com/track/${track.id}` }
+        return { content: `https://open.spotify.com/track/${track.id}?si=0` }
     }
 }))
 
@@ -36,7 +36,7 @@ commands.push(registerCommand({
     execute(args, ctx) {
         const track = SpotifyStore.getTrack()
         if (!track) return sendBotMessage(ctx.channel.id, "You're not listening to any music.")
-        return { content: `https://open.spotify.com/album/${track.album.id}` }
+        return { content: `https://open.spotify.com/album/${track.album.id}?si=0` }
     }
 }))
 
@@ -52,7 +52,7 @@ commands.push(registerCommand({
     execute(args, ctx) {
         const track = SpotifyStore.getTrack()
         if (!track) return sendBotMessage(ctx.channel.id, "You're not listening to any music.")
-        return { content: track.artists[0].external_urls.spotify }
+        return { content: `${track.artists[0].external_urls.spotify}?si=0` }
     }
 }))
 
