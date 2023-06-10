@@ -6,15 +6,15 @@ import { showToast } from "@vendetta/ui/toasts"
 import { getAssetIDByName } from "@vendetta/ui/assets"
 import { clipboard } from "@vendetta/metro/common"
 
-type stickerType = {
-    id: string,
-    name: string,
-    tags: string,
-    type: number,
-    format_type: number,
-    description: string,
-    asset: string,
-    available: boolean,
+type Sticker = {
+    id: string
+    name: string
+    tags: string
+    type: number
+    format_type: number
+    description: string
+    asset: string
+    available: boolean
     guild_id: string
 }
 
@@ -28,7 +28,7 @@ const style = { marginBottom: 10 }
 
 const unpatch = before("render", ActionSheet, ([props]) => {
     const guh = findInReactTree(props, x => Array.isArray(x?.children))
-    const sticker = findInReactTree(props, x => typeof x?.sticker === "object" && x?.sticker?.hasOwnProperty("guild_id"))?.sticker as stickerType
+    const sticker = findInReactTree(props, x => typeof x?.sticker === "object" && x?.sticker?.hasOwnProperty("guild_id"))?.sticker as Sticker
     const favoritedStickers = UserSettingsProtoStore.frecencyWithoutFetchingLatest.favoriteStickers.stickerIds as Array<string>
     if (!guh || !sticker) return
     const isFavorited = !!favoritedStickers.find((s: string) => s === sticker.id)
