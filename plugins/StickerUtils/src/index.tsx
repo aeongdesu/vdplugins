@@ -18,6 +18,7 @@ type Sticker = {
     guild_id: string
 }
 
+const GuildStore = findByStoreName("GuildStore")
 const UserSettingsProtoStore = findByStoreName("UserSettingsProtoStore")
 const { default: ActionSheet } = find(m => m.default?.render?.name === "ActionSheet")
 const { hideActionSheet } = findByProps("hideActionSheet")
@@ -35,18 +36,20 @@ const unpatch = before("render", ActionSheet, ([props]) => {
     const stickerUrl = `https://discord.com/stickers/${sticker.id}.png`
     // replaces HUGE get nitro button, wow!
     guh.children[1] = <>
-        <Button
-            text={isFavorited ? "Remove from Favorites" : "Add to Favorites"}
-            color={isFavorited ? "red" : "brand"}
-            style={style}
-            size="small"
-            onPress={() => {
-                isFavorited ? StickerUtils.unfavoriteSticker(sticker.id) : StickerUtils.favoriteSticker(sticker.id)
-                // temp, idk how to make dynamically
-                hideActionSheet()
-                return showToast(isFavorited ? "Removed from Favorites" : "Added to Favorites", getAssetIDByName("Check"))
-            }}
-        />
+        { Object.values(GuildStore.getGuilds()).find((x: any) => x.id === sticker.guild_id) &&
+            <Button
+                text={isFavorited ? "Remove from Favorites" : "Add to Favorites"}
+                color={isFavorited ? "red" : "brand"}
+                style={style}
+                size="small"
+                onPress={() => {
+                    isFavorited ? StickerUtils.unfavoriteSticker(sticker.id) : StickerUtils.favoriteSticker(sticker.id)
+                    // temp, idk how to make dynamically
+                    hideActionSheet()
+                    return showToast(isFavorited ? "Removed from Favorites" : "Added to Favorites", getAssetIDByName("Check"))
+                }}
+            />
+        }
         <Button
             text="Copy ID to clipboard"
             color="brand"
