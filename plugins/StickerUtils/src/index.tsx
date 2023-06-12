@@ -30,8 +30,8 @@ const style = { marginBottom: 10 }
 const unpatch = before("render", ActionSheet, ([props]) => {
     const guh = findInReactTree(props, x => Array.isArray(x?.children))
     const sticker = findInReactTree(props, x => typeof x?.sticker === "object" && x?.sticker?.hasOwnProperty("guild_id"))?.sticker as Sticker
-    const favoritedStickers = UserSettingsProtoStore.frecencyWithoutFetchingLatest?.favoriteStickers?.stickerIds as Array<string>
-    if (!guh || !sticker || !favoritedStickers) return
+    const favoritedStickers = UserSettingsProtoStore.frecencyWithoutFetchingLatest?.favoriteStickers?.stickerIds ?? [] as Array<string>
+    if (!guh || !sticker) return
     const isFavorited = !!favoritedStickers.find((s: string) => s === sticker.id)
     const stickerUrl = `https://discord.com/stickers/${sticker.id}.png`
     // replaces HUGE get nitro button, wow!
