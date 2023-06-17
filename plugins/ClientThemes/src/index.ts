@@ -5,6 +5,11 @@ import { storage } from "@vendetta/plugin"
 const AppearanceSettings = findByProps("setShouldSyncAppearanceSettings")
 const canUse = findByProps("canUseClientThemes")
 const ThemeUtils = findByProps("updateBackgroundGradientPreset")
+// const { ClientThemesNewThemesExperiment } = findByProps("ClientThemesNewThemesExperiment")
+const { ClientThemesMobileExperiment } = findByProps("ClientThemesMobileExperiment")
+
+// ClientThemesNewThemesExperiment.getCurrentConfig().hasNewClientThemes = true
+ClientThemesMobileExperiment.getCurrentConfig().hasClientThemes = true
 
 AppearanceSettings.setShouldSyncAppearanceSettings(false)
 if (storage.theme && storage.isEnabled) {
