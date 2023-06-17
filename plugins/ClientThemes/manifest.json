@@ -1,6 +1,6 @@
 {
-    "name": "ClientTheme",
-    "description": "nitro benifit",
+    "name": "ClientThemes",
+    "description": "it loads theme after startup",
     "authors": [
         {
             "name": "sapphire",
