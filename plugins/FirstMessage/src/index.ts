@@ -42,7 +42,7 @@ export const onLoad = () => {
         async execute(args, ctx) {
             const user = args.find((o: any) => o.name === "user")?.value as number
             const channel = args.find((o: any) => o.name === "channel")?.value as number
-            const send = !!args.find((o: any) => o.name === "send")?.value
+            const send = args.find((o: any) => o.name === "send")?.value
 
             const guildId = ctx.guild.id
             const channelId = ctx.channel.id
