@@ -1,11 +1,10 @@
-import { findByProps as getByProps } from "@vendetta/metro"
-import { ReactNative, constants as Constants, clipboard, React } from "@vendetta/metro/common"
+import { ReactNative, clipboard, React } from "@vendetta/metro/common"
 import { showToast } from "@vendetta/ui/toasts"
-import { getAssetIDByName as getAssetId } from "@vendetta/ui/assets"
+import { getAssetIDByName } from "@vendetta/ui/assets"
 import { Codeblock, Button } from "@vendetta/ui/components"
 import { cleanMessage } from "./cleanMessage"
 
-const { ScrollView, Text } = ReactNative
+const { ScrollView } = ReactNative
 
 export default function RawPage({ message }) {
     const stringMessage = React.useMemo(() => JSON.stringify(cleanMessage(message), null, 4), [message.id])
@@ -22,7 +21,7 @@ export default function RawPage({ message }) {
                 disabled={!message.content}
                 onPress={() => {
                     clipboard.setString(message.content)
-                    showToast("Copied content to clipboard", getAssetId("toast_copy_link"))
+                    showToast("Copied content to clipboard", getAssetIDByName("toast_copy_link"))
                 }}
             />
             <Button
@@ -32,7 +31,7 @@ export default function RawPage({ message }) {
                 size="small"
                 onPress={() => {
                     clipboard.setString(stringMessage)
-                    showToast("Copied data to clipboard", getAssetId("toast_copy_link"))
+                    showToast("Copied data to clipboard", getAssetIDByName("toast_copy_link"))
                 }}
             />
             {message.content && <Codeblock selectable style={style}>{message.content}</Codeblock>}

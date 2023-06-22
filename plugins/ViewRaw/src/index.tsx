@@ -1,13 +1,13 @@
 import { before, after } from "@vendetta/patcher"
-import { getAssetIDByName as getAssetId } from "@vendetta/ui/assets"
-import { findByProps as getByProps, findByName } from "@vendetta/metro"
+import { getAssetIDByName } from "@vendetta/ui/assets"
+import { findByProps, findByName } from "@vendetta/metro"
 import { React } from "@vendetta/metro/common"
 import { Forms } from "@vendetta/ui/components"
 import RawPage from "./RawPage"
 
-const ActionSheet = getByProps("openLazy", "hideActionSheet")
-const Navigation = getByProps("push", "pushLazy", "pop")
-const DiscordNavigator = getByProps("getRenderCloseButton")
+const ActionSheet = findByProps("openLazy", "hideActionSheet")
+const Navigation = findByProps("push", "pushLazy", "pop")
+const DiscordNavigator = findByProps("getRenderCloseButton")
 const { default: Navigator, getRenderCloseButton } = DiscordNavigator
 const Icon = findByName("Icon")
 const { FormRow } = Forms
@@ -41,7 +41,7 @@ const unpatch = before("openLazy", ActionSheet, (ctx) => {
             buttons.push(
                 <FormRow
                     label="View Raw"
-                    leading={<Icon source={getAssetId("ic_chat_bubble_16px")} />}
+                    leading={<Icon source={getAssetIDByName("ic_chat_bubble_16px")} />}
                     onPress={() => {
                         ActionSheet.hideActionSheet()
                         Navigation.push(navigator)
