@@ -56,7 +56,6 @@ export const onLoad = () => {
                         url: `/channels/${channelId}/messages/search`,
                         query: `min_id=0&sort_by=timestamp&sort_order=asc&offset=0`
                     })).body.messages[0][0]
-                    console.log(message)
                     result += `@me/${channelId}/${message.id}`
                 } else {
                     const message = await getGuildMessage(guildId, null, channelId)

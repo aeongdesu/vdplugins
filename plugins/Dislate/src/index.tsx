@@ -54,7 +54,7 @@ export default {
                         const fromLanguage = from ?? settings.DislateLangFrom
                         const toLanguage = settings.DislateLangTo
                         const isTranslated = translateType === "Translate"
-                        const translate = await Translate.string(originalMessage.content,
+                        const translate = await Translate.translate(originalMessage.content,
                             {
                                 fromLanguage: fromLanguage,
                                 toLanguage: toLanguage

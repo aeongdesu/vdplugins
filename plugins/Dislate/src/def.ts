@@ -8,3 +8,10 @@ export type SettingsType = {
     DislateLangTo: string
     DislateLangAbbr: boolean
 }
+
+export interface TranslationData {
+    src: string
+    sentences: {
+        trans: string
+    }[]
+}
