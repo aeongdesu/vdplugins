@@ -1,24 +1,23 @@
-import { findByProps } from "@vendetta/metro"
-import { storage } from "@vendetta/plugin"
+import { registerCommand as registercommand } from "@vendetta/commands"
+import { ApplicationCommandType, ApplicationCommandInputType } from "../../../ApplicationCommandTypes"
+import { storage as settings } from "@vendetta/plugin"
 
-const ClydeUtils = findByProps("sendBotMessage")
-
-export const sendBotMessage = (channelID: number, message: string) => ClydeUtils.sendBotMessage(channelID, message)
-
-export const nicething = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-
-export const getOption = (args: any[], name: string) => {
-    return args.find(x => x.name == name)?.value
+interface Command {
+    name: string
+    description: string
+    options?: ApplicationCommandOption[]
+    id?: string
+    execute: (args: any[], ctx: CommandContext) => CommandResult | void | Promise<CommandResult> | Promise<void>
 }
 
-type SettingsType = {
-    clientID: string,
-    clientSecret: string,
-    accessData: {
-        token: string,
-        expires_in: number
-    },
-    user: string
-}
+export const registerCommand = (data: Command) => registercommand({
+    displayName: data.name,
+    displayDescription: data.description,
+    applicationId: "-1",
+    type: ApplicationCommandType.CHAT as number,
+    inputType: ApplicationCommandInputType.BUILT_IN_TEXT as number,
+    options: data.options ?? [],
+    ...data
+})
 
-export let settings = storage as SettingsType
+export const isNotSetup = () => !settings.clientID || isNaN(parseFloat(settings.clientID)) || !settings.clientSecret

@@ -1,9 +1,5 @@
-import ProfileCommand from "./Profile"
-import BeatmapsetCommand from "./Beatmap"
-import RecentCommand from "./Recent"
+import profile from "./profile"
 
-export const commands = [
-    ProfileCommand,
-    BeatmapsetCommand,
-    RecentCommand
+export default [
+    profile
 ]

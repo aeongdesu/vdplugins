@@ -1,8 +1,7 @@
 import { React, ReactNative, stylesheet as Styles, url, constants } from "@vendetta/metro/common"
 import { Forms } from "@vendetta/ui/components"
 import { semanticColors } from "@vendetta/ui"
-import { storage } from "@vendetta/plugin"
-import { useProxy } from "@vendetta/storage"
+import { settings } from "./utils"
 
 const { ScrollView, Text } = ReactNative
 const { FormSection, FormInput, FormDivider } = Forms
@@ -20,7 +19,6 @@ const styles = Styles.createThemedStyleSheet({
 })
 
 export default () => {
-    const settings = useProxy(storage)
     return (
         <ScrollView style={{ flex: 1, marginHorizontal: 3, marginVertical: 3 }}>
             <FormSection title="apiv2 configuration" titleStyleType="no_border">
@@ -40,6 +38,14 @@ export default () => {
                 />
             </FormSection>
             <FormDivider />
+            <FormSection title="default user" titleStyleType="no_border">
+                <FormInput
+                    title="User"
+                    value={settings.user}
+                    placeholder="peppy"
+                    onChangeText={(value: string) => settings.user = value}
+                />
+            </FormSection>
         </ScrollView>
     )
 }
