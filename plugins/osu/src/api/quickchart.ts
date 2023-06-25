@@ -10,14 +10,101 @@ interface ChartData {
     chart: string | any                    // Chart.js configuration
 }
 
-export const generateChart = async (data: ChartData) => {
+interface Data {
+    name: string
+    labels: number[]
+    data: number[]
+}
+
+export const generateChart = async (chart: Data) => {
     const res = await fetch("https://quickchart.io/chart/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(defaultConfig(chart))
     })
     if (!res.ok) throw new Error("Failed to generate chart")
     return (await res.json()).url
 }
+
+const defaultConfig = (data: Data) => ({
+    backgroundColor: "#36393e",
+    chart: {
+        type: "line",
+        data: {
+            labels: data.labels,
+            datasets: [{
+                data: data.data,
+                borderJoinStyle: "round",
+                borderCapStyle: "round",
+                fill: false,
+                borderColor: "#ffcc22",
+                lineTension: 0.1,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Days ago",
+                        fontSize: 12,
+                        fontStyle: "bold",
+                        fontColor: "white",
+                        fontFamily: "sans-serif",
+                        lineHeight: 1.2,
+                        padding: 4
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        fontColor: "white"
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Rank",
+                        fontSize: 12,
+                        fontStyle: "bold",
+                        fontColor: "white",
+                        fontFamily: "sans-serif",
+                        padding: 4
+                    },
+                    grindLines: {
+                        display: false,
+                        color: "white",
+                        drawBorder: true,
+                        tickMarkLength: 10
+                    },
+                    ticks: {
+                        reverse: true,
+                        fontColor: "white",
+                        fontFamily: "sans-serif"
+                    }
+                }]
+            },
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: `${data.name}'s Rank History`,
+                fontSize: 15,
+                fontColor: "white",
+                fontFamily: "sans-serif",
+                fontStyle: "bold",
+                padding: 10,
+                lineHeight: 1.2
+            },
+            plugins: {
+                tickFormat: {
+                    useGrouping: true
+                }
+            }
+        }
+    }
+})

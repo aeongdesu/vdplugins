@@ -49,7 +49,7 @@ export default registerCommand({
         const language = args.find((o: any) => o.name === "language").value
         const languageMap = Object.assign({}, ...LanguageNames.map((k, i) => ({ [k]: ISO[i] })))
 
-        const translatedContent = await Translate.string(
+        const translatedContent = await Translate.translate(
             message,
             {
                 fromLanguage: settings.DislateLangFrom as string,
