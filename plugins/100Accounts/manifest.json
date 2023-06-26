@@ -1,6 +1,6 @@
 {
-    "name": "100AccountsWhyWouldYouNeedThisAreYouKiddingMeHUHOkayButYouWillDisablePluginUpdateCauseUhIForgorSorryThisIsNotATokenLoggerTrustMeOrDontInstallClueless",
-    "description": "extends account switcher limit to 100 (horror, disable plugin update pls)",
+    "name": "Account Switcher",
+    "description": "extends account switcher limit to 100",
     "authors": [
         {
             "name": "sapphire",
