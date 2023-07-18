@@ -10,12 +10,11 @@ import ISO from "./translate/languages/iso"
 import { commands, Settings } from "./components"
 
 const ActionSheet = findByProps("openLazy", "hideActionSheet")
-const Icon = findByName("Icon")
 
 const MessageStore = findByStoreName("MessageStore")
 const ChannelStore = findByStoreName("ChannelStore")
 
-const { FormRow } = Forms
+const { FormRow, FormIcon } = Forms
 
 const LanguageNames = Object.assign({}, ...LanguageNamesArray.map((k, i) => ({ [k]: ISO[i] })))
 let cachedData: object[] = [{ "invalid_id": "rosie and sapphire sucks" }]
@@ -84,7 +83,7 @@ export default {
 
                     buttons.splice(guh, 0, <FormRow
                         label={`${translateType} Message`}
-                        leading={<Icon source={translateType === "Translate" ? getAssetIDByName("ic_locale_24px") : getAssetIDByName("ic_highlight")} />}
+                        leading={<FormIcon style={{ opacity: 1 }} source={translateType === "Translate" ? getAssetIDByName("ic_locale_24px") : getAssetIDByName("ic_highlight")} />}
                         onPress={async () => {
                             await translate()
                             ActionSheet.hideActionSheet()

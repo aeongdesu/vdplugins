@@ -9,8 +9,7 @@ const ActionSheet = findByProps("openLazy", "hideActionSheet")
 const Navigation = findByProps("push", "pushLazy", "pop")
 const DiscordNavigator = findByProps("getRenderCloseButton")
 const { default: Navigator, getRenderCloseButton } = DiscordNavigator
-const Icon = findByName("Icon")
-const { FormRow } = Forms
+const { FormRow, FormIcon } = Forms
 
 const unpatch = before("openLazy", ActionSheet, (ctx) => {
     const [component, args, actionMessage] = ctx
@@ -41,7 +40,7 @@ const unpatch = before("openLazy", ActionSheet, (ctx) => {
             buttons.push(
                 <FormRow
                     label="View Raw"
-                    leading={<Icon source={getAssetIDByName("ic_chat_bubble_16px")} />}
+                    leading={<FormIcon style={{ opacity: 1 }} source={getAssetIDByName("ic_chat_bubble_16px")} />}
                     onPress={() => {
                         ActionSheet.hideActionSheet()
                         Navigation.push(navigator)

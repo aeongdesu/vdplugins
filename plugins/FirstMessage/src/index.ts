@@ -1,5 +1,6 @@
 import { registerCommand } from "@vendetta/commands"
 import { findByProps, findByStoreName } from "@vendetta/metro"
+import { url } from "@vendetta/metro/common"
 import { ApplicationCommandType, ApplicationCommandInputType, ApplicationCommandOptionType } from "../../../ApplicationCommandTypes"
 
 const { sendBotMessage } = findByProps("sendBotMessage")
@@ -77,7 +78,7 @@ export const onLoad = () => {
                 result += `${guildId}/${channel}/${message.id}`
             }
             if (send) return { content: result }
-            return sendBotMessage(channelId, result)
+            return url.openDeeplink(result)
         }
     }))
 }
