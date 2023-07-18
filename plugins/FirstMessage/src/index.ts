@@ -13,8 +13,8 @@ export const onLoad = () => {
     commands.push(registerCommand({
         name: "firstmessage",
         displayName: "firstmessage",
-        description: "Tired of scrolling to first message? (dm broken)",
-        displayDescription: "Tired of scrolling to first message? (dm broken)",
+        description: "Tired of scrolling to first message?",
+        displayDescription: "Tired of scrolling to first message?",
         type: ApplicationCommandType.CHAT as number,
         inputType: ApplicationCommandInputType.BUILT_IN_TEXT as number,
         applicationId: "-1",
@@ -79,7 +79,7 @@ export const onLoad = () => {
                 const message = await getFirstGuildMessage(guildId, user, channel)
                 result += `${guildId}/${channel}/${message.id}`
             }
-            
+
             if (send) return { content: result }
             return url.openDeeplink(result)
         }
