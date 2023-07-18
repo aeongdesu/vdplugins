@@ -101,8 +101,9 @@ const getFirstGuildMessage = async (guildId: number, userId?: number, channelId?
 
 const getFirstDMMessage = async (dmId: number, userId?: number) => {
     const userParam = userId ? `&author_id=${userId}` : ""
+    const minIdParam = userId ? "" :`&min_id=0`
     return (await APIUtils.get({
         url: `/channels/${dmId}/messages/search`,
-        query: `min_id=0${userParam}&sort_by=timestamp&sort_order=asc&offset=0`
+        query: `&sort_by=timestamp&sort_order=asc&offset=0${userParam}${minIdParam}`
     })).body.messages[0][0]
 }
