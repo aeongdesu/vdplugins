@@ -1,6 +1,6 @@
 import { before, after } from "@vendetta/patcher"
 import { getAssetIDByName } from "@vendetta/ui/assets"
-import { findByProps, findByName } from "@vendetta/metro"
+import { findByProps } from "@vendetta/metro"
 import { React } from "@vendetta/metro/common"
 import { Forms } from "@vendetta/ui/components"
 import RawPage from "./RawPage"

@@ -53,30 +53,33 @@ export const onLoad = () => {
 
             if (!user && !channel) {
                 if (isDM) {
-                    const message = (await APIUtils.get({
-                        url: `/channels/${channelId}/messages/search`,
-                        query: `min_id=0&sort_by=timestamp&sort_order=asc&offset=0`
-                    })).body.messages[0][0]
+                    const message = await getFirstDMMessage(channelId)
                     result += `@me/${channelId}/${message.id}`
                 } else {
-                    const message = await getGuildMessage(guildId, null, channelId)
+                    const message = await getFirstGuildMessage(guildId, null, channelId)
                     result += `${guildId}/${channelId}/${message.id}`
                 }
             }
             else if (user) {
-                const message = await getGuildMessage(guildId, user)
-                result += `${guildId}/${message.channel_id}/${message.id}`
+                if (isDM) {
+                    const message = await getFirstDMMessage(channelId, user)
+                    result += `@me/${channelId}/${message.id}`
+                } else {
+                    const message = await getFirstGuildMessage(guildId, user)
+                    result += `${guildId}/${message.channel_id}/${message.id}`
+                }
             }
             else if (channel) {
                 if (isDM) return sendBotMessage(channelId, "This combination cannot be used in dms!")
-                const message = await getGuildMessage(guildId, null, channel)
+                const message = await getFirstGuildMessage(guildId, null, channel)
                 result += `${guildId}/${channel}/${message.id}`
             }
             else { // both
                 if (isDM) return sendBotMessage(channelId, "This combination cannot be used in dms!")
-                const message = await getGuildMessage(guildId, user, channel)
+                const message = await getFirstGuildMessage(guildId, user, channel)
                 result += `${guildId}/${channel}/${message.id}`
             }
+            
             if (send) return { content: result }
             return url.openDeeplink(result)
         }
@@ -87,11 +90,19 @@ export const onUnload = () => {
     for (const unregisterCommands of commands) unregisterCommands()
 }
 
-const getGuildMessage = async (guildId: number, userId?: number, channelId?: number) => {
+const getFirstGuildMessage = async (guildId: number, userId?: number, channelId?: number) => {
     const userParam = userId ? `&author_id=${userId}` : ""
     const channelParam = channelId ? `&channel_id=${channelId}` : ""
     return (await APIUtils.get({
         url: `/guilds/${guildId}/messages/search`,
         query: `include_nsfw=true${userParam}${channelParam}&sort_by=timestamp&sort_order=asc&offset=0`
+    })).body.messages[0][0]
+}
+
+const getFirstDMMessage = async (dmId: number, userId?: number) => {
+    const userParam = userId ? `&author_id=${userId}` : ""
+    return (await APIUtils.get({
+        url: `/channels/${dmId}/messages/search`,
+        query: `min_id=0${userParam}&sort_by=timestamp&sort_order=asc&offset=0`
     })).body.messages[0][0]
 }

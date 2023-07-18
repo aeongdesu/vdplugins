@@ -1,4 +1,4 @@
-import { findByProps, findByName, findByStoreName } from "@vendetta/metro"
+import { findByProps, findByStoreName } from "@vendetta/metro"
 import { FluxDispatcher, React, i18n } from "@vendetta/metro/common"
 import { getAssetIDByName } from "@vendetta/ui/assets"
 import { Format, Translate, settings } from "./common"
