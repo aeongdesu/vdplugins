@@ -1,12 +1,10 @@
 import { registerCommand } from "@vendetta/commands"
-import { findByProps, findByStoreName } from "@vendetta/metro"
+import { findByProps } from "@vendetta/metro"
 import { url } from "@vendetta/metro/common"
 import { ApplicationCommandType, ApplicationCommandInputType, ApplicationCommandOptionType } from "../../../ApplicationCommandTypes"
 
 const { sendBotMessage } = findByProps("sendBotMessage")
 const APIUtils = findByProps("getAPIBaseURL", "get")
-const ChannelStore = findByStoreName("ChannelStore")
-
 let commands = []
 
 export const onLoad = () => {
@@ -45,9 +43,9 @@ export const onLoad = () => {
             const channel = args.find((o: any) => o.name === "channel")?.value as number
             const send = args.find((o: any) => o.name === "send")?.value
 
-            const guildId = ctx.guild.id
+            const guildId = ctx.guild?.id
             const channelId = ctx.channel.id
-            const isDM = ctx.channel.type ?? ChannelStore.getChannel(ChannelStore.getChannelId()).type === 1
+            const isDM = ctx.channel.type === 1
 
             let result = "https://discord.com/channels/"
 
