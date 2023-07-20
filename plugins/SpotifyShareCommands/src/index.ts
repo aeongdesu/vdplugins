@@ -35,7 +35,7 @@ commands.push(registerCommand({
     applicationId: "-1",
     options: [],
     execute(args, ctx) {
-        const track = SpotifyStore.getTrack()
+        const track = SpotifyStore.getTrack();
         if (!track) return sendBotMessage(ctx.channel.id, "You're not listening to any music.")
         return { content: `https://open.spotify.com/album/${track.album.id}?si=0` }
     }
