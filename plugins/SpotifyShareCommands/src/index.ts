@@ -21,6 +21,7 @@ commands.push(registerCommand({
     execute(args, ctx) {
         const track = SpotifyStore.getTrack();
         if (!track) noSpotifySession(ctx);
+        console.log(`Info: ${JSON.stringify(track)}`);
         return { content: `https://open.spotify.com/track/${track.id}?si=0` };
     }
 }));
