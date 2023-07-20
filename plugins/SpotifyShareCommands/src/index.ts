@@ -82,12 +82,11 @@ commands.push(registerCommand({
         const track = SpotifyStore.getTrack();
         if (!track) noSpotifySession(ctx);
         const info = [
-            `Title: ${track.name}`,
+            `Title: [${track.name}`](${track.album.image.url}),
             `Main artist: [${track.artists[0].name}](${track.artists[0].external_urls.spotify}?si=0)`,
             `Album: [${track.album.name}](https://open.spotify.com/album/${track.album.id}?si=0)`,
-            `Cover: ${track.album.image.url}`,
             ``,
-            `**[Listen This Track!](https://open.spotify.com/track/${track.id}?si=0)**`
+            `**[Listen to This Track!](https://open.spotify.com/track/${track.id}?si=0)**`
         ];
         return { content: `${info.join('\n')}` };
     }
