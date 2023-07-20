@@ -66,7 +66,7 @@ commands.push(registerCommand({
     execute(args, ctx) {
         const track = SpotifyStore.getTrack();
         if (!track) noSpotifySession(ctx);
-        return { content: `${track.album.image.url` };
+        return { content: `${track.album.image.url}` };
     }
 }));
 
