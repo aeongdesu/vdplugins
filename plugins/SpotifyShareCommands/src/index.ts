@@ -82,7 +82,7 @@ commands.push(registerCommand({
         const track = SpotifyStore.getTrack();
         if (!track) noSpotifySession(ctx);
         const info = [
-            `Title: [${track.name}`](${track.album.image.url})`,
+            `Title: [${track.name}](${track.album.image.url})`,
             `Main artist: [${track.artists[0].name}](${track.artists[0].external_urls.spotify}?si=0)`,
             `Album: [${track.album.name}](https://open.spotify.com/album/${track.album.id}?si=0)`,
             ``,
