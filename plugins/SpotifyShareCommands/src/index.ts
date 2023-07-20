@@ -1,12 +1,14 @@
 // https://github.com/Vendicated/Vencord/blob/main/src/plugins/spotifyShareCommands.ts
-import { registerCommand } from "@vendetta/commands"
-import { findByProps, findByStoreName } from "@vendetta/metro"
-import { ApplicationCommandType, ApplicationCommandInputType } from "../../../ApplicationCommandTypes"
+import { registerCommand } from "@vendetta/commands";
+import { findByProps, findByStoreName } from "@vendetta/metro";
+import { ApplicationCommandType, ApplicationCommandInputType } from "../../../ApplicationCommandTypes";
 
-const { sendBotMessage } = findByProps("sendBotMessage")
-const SpotifyStore = findByStoreName("SpotifyStore")
+const { sendBotMessage } = findByProps("sendBotMessage");
+const SpotifyStore = findByStoreName("SpotifyStore");
 
-let commands = []
+const noSpotifySession = (ctx: any) => sendBotMessage(ctx.channel.id, "You're not listening to any music.");
+
+let commands = [];
 
 commands.push(registerCommand({
     name: "spotify track",
@@ -19,11 +21,10 @@ commands.push(registerCommand({
     options: [],
     execute(args, ctx) {
         const track = SpotifyStore.getTrack();
-        console.log(`Test: ${JSON.stringify(track)}`);
-        if (!track) return sendBotMessage(ctx.channel.id, "You're not listening to any music.")
+        if (!track) noSpotifySession(ctx);
         return { content: `https://open.spotify.com/track/${track.id}?si=0` }
-    }
-}))
+    };
+}));
 
 commands.push(registerCommand({
     name: "spotify album",
@@ -36,10 +37,10 @@ commands.push(registerCommand({
     options: [],
     execute(args, ctx) {
         const track = SpotifyStore.getTrack();
-        if (!track) return sendBotMessage(ctx.channel.id, "You're not listening to any music.")
-        return { content: `https://open.spotify.com/album/${track.album.id}?si=0` }
+        if (!track) noSpotifySession(ctx);
+        return { content: `https://open.spotify.com/album/${track.album.id}?si=0` };
     }
-}))
+}));
 
 commands.push(registerCommand({
     name: "spotify artist",
@@ -51,12 +52,28 @@ commands.push(registerCommand({
     applicationId: "-1",
     options: [],
     execute(args, ctx) {
-        const track = SpotifyStore.getTrack()
-        if (!track) return sendBotMessage(ctx.channel.id, "You're not listening to any music.")
+        const track = SpotifyStore.getTrack();
+        if (!track) noSpotifySession(ctx);
         return { content: `${track.artists[0].external_urls.spotify}?si=0` }
-    }
-}))
+    };
+}));
+
+commands.push(registerCommand({
+    name: "spotify cover",
+    displayName: "spotify cover",
+    description: "Send your current Spotify track's cover to chat",
+    displayDescription: "Send your current Spotify track's cover to chat",
+    type: ApplicationCommandType.CHAT as number,
+    inputType: ApplicationCommandInputType.BUILT_IN_TEXT as number,
+    applicationId: "-1",
+    options: [],
+    execute(args, ctx) {
+        const track = SpotifyStore.getTrack();
+        if (!track) noSpotifySession(ctx);
+        return { content: `${track.album.image.url` };
+    };
+}));
 
 export const onUnload = () => {
-    for (const unregisterCommands of commands) unregisterCommands()
-}
+    for (const unregisterCommands of commands) unregisterCommands();
+};
