@@ -71,5 +71,6 @@ commands.push(registerCommand({
 }));
 
 export const onUnload = () => {
-    for (const unregisterCommand of commands) { unregisterCommand() };
-};
+    for (const unregisterCommand of commands) unregisterCommand();
+}
+
