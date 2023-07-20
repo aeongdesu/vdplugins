@@ -71,6 +71,29 @@ commands.push(registerCommand({
     }
 }));
 
+commands.push(registerCommand({
+    name: "spotify info",
+    displayName: "spotify info",
+    description: "Send your current Spotify track's info to chat",
+    displayDescription: "Send your current Spotify track's info to chat",
+    type: ApplicationCommandType.CHAT as number,
+    inputType: ApplicationCommandInputType.BUILT_IN_TEXT as number,
+    applicationId: "-1",
+    execute(args, ctx) {
+        const track = SpotifyStore.getTrack();
+        if (!track) noSpotifySession(ctx);
+        const info = [
+            `Title: ${track.name}`,
+            `Main artist: [${track.artists[0].name}](${track.artists[0].external_urls.spotify}?si=0)`,
+            `Album: [${track.album.name}](https://open.spotify.com/album/${track.album.id}?si=0)`,
+            `Cover: ${track.album.image.url}`,
+            ``,
+            `**[Listen This Track!](https://open.spotify.com/track/${track.id}?si=0)**`
+        ];
+        return { content: `${info.join('\n')}` };
+    }
+}));
+
 export const onUnload = () => {
     for (const unregisterCommand of commands) unregisterCommand();
 };
