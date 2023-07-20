@@ -5,6 +5,10 @@
         {
             "name": "sapphire",
             "id": "757982547861962752"
+        },
+        {
+            "name": "Nakidamiru",
+            "id": "437154602626973697"
         }
     ],
     "main": "src/index.ts",
