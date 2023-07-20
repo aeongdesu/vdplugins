@@ -18,7 +18,8 @@ commands.push(registerCommand({
     applicationId: "-1",
     options: [],
     execute(args, ctx) {
-        const track = SpotifyStore.getTrack()
+        const track = SpotifyStore.getTrack();
+        console.log(`Test: ${JSON.stringify(track)}`);
         if (!track) return sendBotMessage(ctx.channel.id, "You're not listening to any music.")
         return { content: `https://open.spotify.com/track/${track.id}?si=0` }
     }
