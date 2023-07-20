@@ -18,12 +18,11 @@ commands.push(registerCommand({
     type: ApplicationCommandType.CHAT as number,
     inputType: ApplicationCommandInputType.BUILT_IN_TEXT as number,
     applicationId: "-1",
-    options: [],
     execute(args, ctx) {
         const track = SpotifyStore.getTrack();
         if (!track) noSpotifySession(ctx);
-        return { content: `https://open.spotify.com/track/${track.id}?si=0` }
-    };
+        return { content: `https://open.spotify.com/track/${track.id}?si=0` };
+    }
 }));
 
 commands.push(registerCommand({
@@ -34,7 +33,6 @@ commands.push(registerCommand({
     type: ApplicationCommandType.CHAT as number,
     inputType: ApplicationCommandInputType.BUILT_IN_TEXT as number,
     applicationId: "-1",
-    options: [],
     execute(args, ctx) {
         const track = SpotifyStore.getTrack();
         if (!track) noSpotifySession(ctx);
@@ -50,12 +48,11 @@ commands.push(registerCommand({
     type: ApplicationCommandType.CHAT as number,
     inputType: ApplicationCommandInputType.BUILT_IN_TEXT as number,
     applicationId: "-1",
-    options: [],
     execute(args, ctx) {
         const track = SpotifyStore.getTrack();
         if (!track) noSpotifySession(ctx);
-        return { content: `${track.artists[0].external_urls.spotify}?si=0` }
-    };
+        return { content: `${track.artists[0].external_urls.spotify}?si=0` };
+    }
 }));
 
 commands.push(registerCommand({
@@ -66,14 +63,13 @@ commands.push(registerCommand({
     type: ApplicationCommandType.CHAT as number,
     inputType: ApplicationCommandInputType.BUILT_IN_TEXT as number,
     applicationId: "-1",
-    options: [],
     execute(args, ctx) {
         const track = SpotifyStore.getTrack();
         if (!track) noSpotifySession(ctx);
         return { content: `${track.album.image.url` };
-    };
+    }
 }));
 
 export const onUnload = () => {
-    for (const unregisterCommands of commands) unregisterCommands();
+    for (const unregisterCommand of commands) unregisterCommand();
 };
