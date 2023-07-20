@@ -69,7 +69,3 @@ commands.push(registerCommand({
         return { content: `${track.album.image.url` };
     }
 }));
-
-export const onUnload = () => {
-    for (const unregisterCommands of commands) unregisterCommands()
-};
