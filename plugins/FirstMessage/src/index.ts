@@ -54,8 +54,8 @@ export const onLoad = () => {
                     const message = await getFirstDMMessage(channelId)
                     result += `@me/${channelId}/${message.id}`
                 } else {
-                    const message = await getFirstGuildMessage(guildId, null, channelId)
-                    result += `${guildId}/${channelId}/${message.id}`
+                    const message = await getFirstGuildMessage(guildId)
+                    result += `${guildId}/${message.channel_id}/${message.id}`
                 }
             }
             else if (user) {
