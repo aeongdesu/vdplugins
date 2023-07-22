@@ -55,7 +55,7 @@ export const onLoad = () => {
                     result += `@me/${channelId}/${message.id}`
                 } else {
                     const message = await getFirstGuildMessage(guildId)
-                    result += `${guildId}/${channelId}/${message.id}`
+                    result += `${guildId}/${message.channel_id}/${message.id}`
                 }
             }
             else if (user) {
