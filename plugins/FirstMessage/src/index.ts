@@ -54,7 +54,7 @@ export const onLoad = () => {
                     const message = await getFirstDMMessage(channelId)
                     result += `@me/${channelId}/${message.id}`
                 } else {
-                    const message = await getFirstGuildMessage(guildId, null, channelId)
+                    const message = await getFirstGuildMessage(guildId)
                     result += `${guildId}/${channelId}/${message.id}`
                 }
             }
@@ -91,9 +91,10 @@ export const onUnload = () => {
 const getFirstGuildMessage = async (guildId: number, userId?: number, channelId?: number) => {
     const userParam = userId ? `&author_id=${userId}` : ""
     const channelParam = channelId ? `&channel_id=${channelId}` : ""
+    const minIdParam = userId ? "" :`&min_id=0`
     return (await APIUtils.get({
         url: `/guilds/${guildId}/messages/search`,
-        query: `include_nsfw=true${userParam}${channelParam}&sort_by=timestamp&sort_order=asc&offset=0`
+        query: `include_nsfw=true${userParam}${channelParam}${minIdParam}&sort_by=timestamp&sort_order=asc&offset=0`
     })).body.messages[0][0]
 }
 
