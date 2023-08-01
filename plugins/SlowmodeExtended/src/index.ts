@@ -1,5 +1,6 @@
-import { constants } from "@vendetta/metro/common"
+import { findByProps } from "@vendetta/metro"
 
+const constants = findByProps("SLOWMODE_VALUES")
 const defaultValue = constants.SLOWMODE_VALUES
 
 let values: number[] = []
