@@ -9,8 +9,7 @@ import LanguageNamesArray from "./translate/languages/names"
 import ISO from "./translate/languages/iso"
 import { commands, Settings } from "./components"
 
-const ActionSheet = findByProps("openLazy", "hideActionSheet")
-
+const { ActionSheet } = findByProps("ActionSheet")
 const MessageStore = findByStoreName("MessageStore")
 const ChannelStore = findByStoreName("ChannelStore")
 
