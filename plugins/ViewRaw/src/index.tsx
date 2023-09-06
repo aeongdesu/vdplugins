@@ -5,7 +5,7 @@ import { React } from "@vendetta/metro/common"
 import { Forms } from "@vendetta/ui/components"
 import RawPage from "./RawPage"
 
-const { ActionSheet } = findByProps("ActionSheet")
+const ActionSheet = findByProps("openLazy", "hideActionSheet")
 const Navigation = findByProps("push", "pushLazy", "pop")
 const DiscordNavigator = findByProps("getRenderCloseButton")
 const { default: Navigator, getRenderCloseButton } = DiscordNavigator
