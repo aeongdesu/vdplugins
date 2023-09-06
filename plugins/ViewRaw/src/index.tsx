@@ -4,24 +4,22 @@ import { findByProps } from "@vendetta/metro"
 import { React } from "@vendetta/metro/common"
 import { Forms } from "@vendetta/ui/components"
 import RawPage from "./RawPage"
+import { findInReactTree } from "@vendetta/utils"
 
-const ActionSheet = findByProps("openLazy", "hideActionSheet")
+const LazyActionSheet = findByProps("openLazy", "hideActionSheet")
 const Navigation = findByProps("push", "pushLazy", "pop")
 const DiscordNavigator = findByProps("getRenderCloseButton")
 const { default: Navigator, getRenderCloseButton } = DiscordNavigator
 const { FormRow, FormIcon } = Forms
 
-const unpatch = before("openLazy", ActionSheet, (ctx) => {
-    const [component, args, actionMessage] = ctx
-    if (args !== "MessageLongPressActionSheet") return
+const unpatch = before("openLazy", LazyActionSheet, ([component, key, msg]) => {
+    const message = msg?.message
+    if (key !== "MessageLongPressActionSheet" || !message) return
     component.then(instance => {
         const unpatch = after("default", instance, (_, component) => {
-            React.useEffect(() => () => { unpatch() }, []) // omg!!!!!!!!!!!!!
-            let [msgProps, buttons] = component.props?.children?.props?.children?.props?.children
-
-            const message = msgProps?.props?.message ?? actionMessage?.message
-
-            if (!buttons || !message) return
+            React.useEffect(() => () => { unpatch() }, [])
+            const buttons = findInReactTree(component, x => x?.[0]?.type?.name === "ButtonRow")
+            if (!buttons) return
 
             const navigator = () => (
                 <Navigator
@@ -42,10 +40,11 @@ const unpatch = before("openLazy", ActionSheet, (ctx) => {
                     label="View Raw"
                     leading={<FormIcon style={{ opacity: 1 }} source={getAssetIDByName("ic_chat_bubble_16px")} />}
                     onPress={() => {
-                        ActionSheet.hideActionSheet()
+                        LazyActionSheet.hideActionSheet()
                         Navigation.push(navigator)
                     }}
-                />)
+                />
+            )
         })
     })
 })
