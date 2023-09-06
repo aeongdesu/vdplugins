@@ -1,6 +1,7 @@
 import { findByProps, findByStoreName } from "@vendetta/metro"
 import { FluxDispatcher, React, i18n } from "@vendetta/metro/common"
 import { getAssetIDByName } from "@vendetta/ui/assets"
+import { findInReactTree } from "@vendetta/utils"
 import { Format, Translate, settings } from "./common"
 import { Forms } from "@vendetta/ui/components"
 import { before, after } from "@vendetta/patcher"
@@ -9,7 +10,7 @@ import LanguageNamesArray from "./translate/languages/names"
 import ISO from "./translate/languages/iso"
 import { commands, Settings } from "./components"
 
-const ActionSheet = findByProps("openLazy", "hideActionSheet")
+const LazyActionSheet = findByProps("openLazy", "hideActionSheet")
 const MessageStore = findByStoreName("MessageStore")
 const ChannelStore = findByStoreName("ChannelStore")
 
@@ -25,16 +26,16 @@ export default {
         commands // recall to register command again
 
         // patch ActionSheet
-        patches.push(before("openLazy", ActionSheet, (ctx) => {
-            const [component, args, actionMessage] = ctx
-            if (args !== "MessageLongPressActionSheet") return
-            component.then((instance: any) => {
+        const unpatch = before("openLazy", LazyActionSheet, ([component, key, msg]) => {
+            const message = msg?.message
+            if (key !== "MessageLongPressActionSheet" || !message) return
+            component.then(instance => {
                 const unpatch = after("default", instance, (_, component) => {
                     React.useEffect(() => () => { unpatch() }, [])
-                    let [msgProps, buttons] = component.props?.children?.props?.children?.props?.children
-                    const message = msgProps?.props?.message ?? actionMessage?.message
-                    const guh = buttons?.findIndex((item: any) => item.props?.message === i18n.Messages.MARK_UNREAD)
-                    if (!buttons || !message || guh === -1) return
+                    const buttons = findInReactTree(component, x => x?.[0]?.type?.name === "ButtonRow")
+                    if (!buttons) return
+
+                    const position = Math.max(buttons.findIndex(x => x.props.message === i18n.Messages.MARK_UNREAD), 0)
 
                     const originalMessage = MessageStore.getMessage(
                         message.channel_id,
@@ -80,29 +81,29 @@ export default {
                             : cachedData = cachedData.filter((e: any) => e !== existingCachedObject, "cached data override")
                     }
 
-                    buttons.splice(guh, 0, <FormRow
+                    buttons.splice(position, 0, <FormRow
                         label={`${translateType} Message`}
                         leading={<FormIcon style={{ opacity: 1 }} source={translateType === "Translate" ? getAssetIDByName("ic_locale_24px") : getAssetIDByName("ic_highlight")} />}
                         onPress={async () => {
                             await translate()
-                            ActionSheet.hideActionSheet()
+                            LazyActionSheet.hideActionSheet()
                         }}
-                        /* work in progress | note: create actionsheet and show like ToLang page
-                        onLongPress={() => {
-                            showConfirmationAlert({ // temp
-                                title: "Translate from",
-                                content: (<></>),
-                                onConfirm: async () => {
-                                    await translate("english")
-                                    ActionSheet.hideActionSheet()
-                                }
-                            })
-                        }}
-                        */
+                    /* work in progress | note: create actionsheet and show like ToLang page
+                    onLongPress={() => {
+                        showConfirmationAlert({ // temp
+                            title: "Translate from",
+                            content: (<></>),
+                            onConfirm: async () => {
+                                await translate("english")
+                                ActionSheet.hideActionSheet()
+                            }
+                        })
+                    }}
+                    */
                     />)
                 })
             })
-        }))
+        })
     },
     onUnload: () => {
         for (const unregisterCommands of commands) unregisterCommands()

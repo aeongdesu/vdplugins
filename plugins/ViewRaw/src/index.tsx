@@ -1,10 +1,10 @@
 import { before, after } from "@vendetta/patcher"
 import { getAssetIDByName } from "@vendetta/ui/assets"
+import { findInReactTree } from "@vendetta/utils"
 import { findByProps } from "@vendetta/metro"
 import { React } from "@vendetta/metro/common"
 import { Forms } from "@vendetta/ui/components"
 import RawPage from "./RawPage"
-import { findInReactTree } from "@vendetta/utils"
 
 const LazyActionSheet = findByProps("openLazy", "hideActionSheet")
 const Navigation = findByProps("push", "pushLazy", "pop")
