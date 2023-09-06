@@ -16,9 +16,10 @@ const getUserBannerURL = findByProps("default", "getUserBannerURL")
 
 let data: userBGData[]
 
-const fetchData = async () => {
+export const fetchData = async () => {
     try {
         data = await (await safeFetch("https://raw.githubusercontent.com/Discord-Custom-Covers/usrbg/master/dist/usrbg.json", { cache: "no-store" })).json()
+        return data
     } catch (e) {
         logger.error("Failed to fetch userBG data", e)
     }
