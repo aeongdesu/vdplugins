@@ -20,7 +20,7 @@ type Sticker = {
 
 const GuildStore = findByStoreName("GuildStore")
 const UserSettingsProtoStore = findByStoreName("UserSettingsProtoStore")
-const { default: ActionSheet } = find(m => m.default?.render?.name === "ActionSheet")
+const ActionSheet = findByProps("ActionSheet")?.ActionSheet ?? find(m => m?.render?.name === "ActionSheet")
 const { hideActionSheet } = findByProps("hideActionSheet")
 const { downloadMediaAsset } = findByProps("downloadMediaAsset")
 const StickerUtils = findByProps("favoriteSticker", "unfavoriteSticker")
