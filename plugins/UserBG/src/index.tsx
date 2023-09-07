@@ -2,6 +2,7 @@ import { logger } from "@vendetta"
 import { findByProps } from "@vendetta/metro"
 import { after } from "@vendetta/patcher"
 import { safeFetch } from "@vendetta/utils"
+import { showToast } from "@vendetta/ui/toasts"
 
 import Settings from "./Settings"
 
@@ -15,6 +16,7 @@ interface userBGData {
 const getUserBannerURL = findByProps("default", "getUserBannerURL")
 
 let data: userBGData[]
+let unpatch: () => void
 
 export const fetchData = async () => {
     try {
@@ -25,16 +27,16 @@ export const fetchData = async () => {
     }
 }
 
-export default async () => {
+export const onLoad = async () => {
     await fetchData()
-    if (!data) return () => { }
+    if (!data) return showToast("Failed to load DB")
 
-    const unpatch = after("getUserBannerURL", getUserBannerURL, ([user]) => {
+    unpatch = after("getUserBannerURL", getUserBannerURL, ([user]) => {
         const customBanner = data?.find((i: userBGData) => i.uid === user?.id)
         if (user?.banner === undefined && customBanner) return customBanner.img
     })
-
-    return () => unpatch()
 }
+
+export const onUnload = () => unpatch?.()
 
 export const settings = Settings
