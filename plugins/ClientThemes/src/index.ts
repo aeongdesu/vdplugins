@@ -4,7 +4,7 @@ import { storage } from "@vendetta/plugin"
 
 
 const AppearanceSettings = findByProps("setShouldSyncAppearanceSettings")
-const canUse = findByProps("canUseClientThemes")
+const canUse = findByProps("canUseClientThemes", false)
 const ThemeUtils = findByProps("updateBackgroundGradientPreset")
 // const { ClientThemesNewThemesExperiment } = findByProps("ClientThemesNewThemesExperiment")
 const { ClientThemesMobileExperiment } = findByProps("ClientThemesMobileExperiment")
@@ -19,9 +19,12 @@ if (storage.theme && storage.isEnabled) {
     ThemeUtils.updateBackgroundGradientPreset(storage.theme)
 }
 
+// unfreeze canUse object
+canUse.default = { ...canUse.default }
+
 const patches = [
     instead("setShouldSyncAppearanceSettings", AppearanceSettings, () => !storage.isEnabled),
-    instead("canUseClientThemes", canUse, () => true),
+    instead("canUseClientThemes", canUse.default, () => true),
     after("updateMobilePendingThemeIndex", ThemeUtils, (args) => {
         storage.isEnabled = args[0] > 1 // 0 ~ 1 | default || 2 ~ | client themes
     }),
