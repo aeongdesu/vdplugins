@@ -1,10 +1,9 @@
-import { findByProps } from "@vendetta/metro"
+import { find, findByProps } from "@vendetta/metro"
 import { instead, after } from "@vendetta/patcher"
 import { storage } from "@vendetta/plugin"
 
-
 const AppearanceSettings = findByProps("setShouldSyncAppearanceSettings")
-const canUse = findByProps("canUseClientThemes", false)
+const canUse = find(m => m.default?.canUseClientThemes)
 const ThemeUtils = findByProps("updateBackgroundGradientPreset")
 // const { ClientThemesNewThemesExperiment } = findByProps("ClientThemesNewThemesExperiment")
 const { ClientThemesMobileExperiment } = findByProps("ClientThemesMobileExperiment")
