@@ -9,6 +9,7 @@ export const settings: {
 settings.target_lang ??= "ko"
 
 export default {
-    onLoad: () => { for (const patch of patches) patch() },
+    // onLoad: () => { for (const patch of patches) patch() },
     onUnload: () => { for (const unpatch of patches) unpatch() },
 }
+
