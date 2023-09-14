@@ -1,5 +1,5 @@
 import { storage } from "@vendetta/plugin"
-import patches from "./patches"
+import patchActionSheet from "./patches/ActionSheet"
 
 export const settings: {
     source_lang?: string
@@ -8,8 +8,12 @@ export const settings: {
 
 settings.target_lang ??= "ko"
 
+let patches = []
+
 export default {
-    // onLoad: () => { for (const patch of patches) patch() },
+    onLoad: () => {
+        patches.push(patchActionSheet())
+    },
     onUnload: () => { for (const unpatch of patches) unpatch() },
 }
 
