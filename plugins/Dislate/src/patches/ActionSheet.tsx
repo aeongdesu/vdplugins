@@ -8,6 +8,8 @@ import { findInReactTree } from "@vendetta/utils"
 import { settings } from ".."
 
 import { DeepL } from "../api"
+import { showToast } from "@vendetta/ui/toasts"
+import { logger } from "@vendetta"
 
 const LazyActionSheet = findByProps("openLazy", "hideActionSheet")
 const ActionSheetRow = findByProps("ActionSheetRow")?.ActionSheetRow ?? Forms.FormRow // no icon if legacy
@@ -49,30 +51,35 @@ export default () => before("openLazy", LazyActionSheet, ([component, key, msg])
             const icon = translateType === "Translate" ? getAssetIDByName("ic_locale_24px") : getAssetIDByName("ic_highlight")
 
             const translate = async () => {
-                const target_lang = settings.target_lang
-                const isTranslated = translateType === "Translate"
+                try {
+                    const target_lang = settings.target_lang
+                    const isTranslated = translateType === "Translate"
 
-                const translate = await DeepL.translate(originalMessage.content, null, target_lang, !isTranslated)
+                    const translate = await DeepL.translate(originalMessage.content, null, target_lang, !isTranslated)
 
-                FluxDispatcher.dispatch({
-                    type: "MESSAGE_UPDATE",
-                    message: {
-                        ...originalMessage,
-                        content: `${isTranslated ? translate.text : (existingCachedObject as object)[messageId]}`
-                            + ` ${isTranslated ? `\`[${target_lang?.toLowerCase()}]\``
-                                : ""}`,
-                        guild_id: ChannelStore.getChannel(
-                            originalMessage.channel_id
-                        ).guild_id,
-                    },
-                    log_edit: false
-                })
+                    FluxDispatcher.dispatch({
+                        type: "MESSAGE_UPDATE",
+                        message: {
+                            ...originalMessage,
+                            content: `${isTranslated ? translate.text : (existingCachedObject as object)[messageId]}`
+                                + ` ${isTranslated ? `\`[${target_lang?.toLowerCase()}]\``
+                                    : ""}`,
+                            guild_id: ChannelStore.getChannel(
+                                originalMessage.channel_id
+                            ).guild_id,
+                        },
+                        log_edit: false
+                    })
 
-                isTranslated
-                    ? cachedData.unshift({ [messageId]: messageContent })
-                    : cachedData = cachedData.filter((e: any) => e !== existingCachedObject, "cached data override")
-
-                return LazyActionSheet.hideActionSheet()
+                    isTranslated
+                        ? cachedData.unshift({ [messageId]: messageContent })
+                        : cachedData = cachedData.filter((e: any) => e !== existingCachedObject, "cached data override")
+                } catch (e) {
+                    showToast("Failed to translate message. Please check Debug Logs for more info.", getAssetIDByName("Small"))
+                    logger.error(e)
+                } finally {
+                    return LazyActionSheet.hideActionSheet()
+                }
             }
 
 
