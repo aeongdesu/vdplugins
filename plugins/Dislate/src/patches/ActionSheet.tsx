@@ -6,7 +6,8 @@ import { getAssetIDByName } from "@vendetta/ui/assets"
 import { Forms } from "@vendetta/ui/components"
 import { findInReactTree } from "@vendetta/utils"
 import { settings } from ".."
-import DeepL from "../api/DeepL"
+
+import { DeepL } from "../api"
 
 const LazyActionSheet = findByProps("openLazy", "hideActionSheet")
 const ActionSheetRow = findByProps("ActionSheetRow")?.ActionSheetRow ?? Forms.FormRow // no icon if legacy
