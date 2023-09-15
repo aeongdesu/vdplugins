@@ -59,7 +59,7 @@ export default () => before("openLazy", LazyActionSheet, ([component, key, msg])
                     message: {
                         ...originalMessage,
                         content: `${isTranslated ? translate.text : (existingCachedObject as object)[messageId]}`
-                            + ` ${isTranslated ? `\`[${target_lang}]\``
+                            + ` ${isTranslated ? `\`[${target_lang?.toLowerCase()}]\``
                                 : ""}`,
                         guild_id: ChannelStore.getChannel(
                             originalMessage.channel_id

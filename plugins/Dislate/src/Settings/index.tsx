@@ -31,7 +31,7 @@ export default () => {
         <ScrollView>
             <FormRow
                 label={"Translate to"}
-                subLabel={settings.target_lang}
+                subLabel={settings.target_lang?.toLowerCase()}
                 leading={<FormRow.Icon source={getAssetIDByName("ic_activity_24px")} />}
                 trailing={() => <FormRow.Arrow />}
                 onPress={() => navigation.push("VendettaCustomPage", {
