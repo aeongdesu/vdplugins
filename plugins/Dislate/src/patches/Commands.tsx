@@ -37,8 +37,8 @@ export default () => registerCommand({
         {
             name: "language",
             displayName: "language",
-            description: "The language that Dislate will translate the text into. This can be any language from the list, except \"Detect\".",
-            displayDescription: "The language that Dislate will translate the text into. This can be any language from the list, except \"Detect\".",
+            description: "The language that Dislate will translate the text into. This can be any language from the list.",
+            displayDescription: "The language that Dislate will translate the text into. This can be any language from the list.",
             type: ApplicationCommandOptionType.STRING as number,
             // @ts-ignore
             choices: [...langOptions],
