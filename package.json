@@ -13,7 +13,7 @@
 		"@swc/core": "^1.3.84",
 		"esbuild": "^0.19.3",
 		"rollup": "^3.29.1",
-		"rollup-plugin-esbuild": "^5.0.0",
+		"rollup-plugin-esbuild": "^6.0.1",
 		"vendetta-types": "^2.4.21"
 	},
 	"pnpm": {
