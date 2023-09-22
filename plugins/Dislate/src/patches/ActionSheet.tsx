@@ -43,8 +43,8 @@ export default () => before("openLazy", LazyActionSheet, ([component, key, msg])
             )
             if (!originalMessage?.content && !message.content) return
 
-            const messageId = originalMessage.id ?? message.id
-            const messageContent = originalMessage.content ?? message.content
+            const messageId = originalMessage?.id ?? message.id
+            const messageContent = originalMessage?.content ?? message.content
             const existingCachedObject = cachedData.find((o: any) => Object.keys(o)[0] === messageId, "cache object")
 
             const translateType = existingCachedObject ? "Revert" : "Translate"
