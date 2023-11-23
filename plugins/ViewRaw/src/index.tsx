@@ -1,15 +1,16 @@
 import { before, after } from "@vendetta/patcher";
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { findInReactTree } from "@vendetta/utils";
-import { findByProps } from "@vendetta/metro";
+import { findByName, findByProps } from "@vendetta/metro";
 import { React } from "@vendetta/metro/common";
 import { Forms } from "@vendetta/ui/components";
 import RawPage from "./RawPage";
 
 const LazyActionSheet = findByProps("openLazy", "hideActionSheet");
 const Navigation = findByProps("push", "pushLazy", "pop");
-const DiscordNavigator = findByProps("getRenderCloseButton");
-const { getRenderCloseButton } = DiscordNavigator;
+const modalCloseButton =
+  findByProps("getRenderCloseButton")?.getRenderCloseButton ??
+  findByProps("getHeaderCloseButton")?.getHeaderCloseButton;
 const Navigator =
   findByName("Navigator") ?? findByProps("Navigator")?.Navigator;
 const { FormRow, FormIcon } = Forms;
@@ -30,7 +31,7 @@ const unpatch = before("openLazy", LazyActionSheet, ([component, key, msg]) => {
                     screens={{
                         RawPage: {
                             title: "ViewRaw",
-                            headerLeft: getRenderCloseButton(() => Navigation.pop()),
+                            headerLeft: modalCloseButton?.(() => Navigation.pop()),
                             render: () => <RawPage message={message} />
                         }
                     }}
