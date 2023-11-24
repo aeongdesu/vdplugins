@@ -10,9 +10,8 @@ const LazyActionSheet = findByProps("openLazy", "hideActionSheet")
 const Navigation = findByProps("push", "pushLazy", "pop")
 const modalCloseButton =
   findByProps("getRenderCloseButton")?.getRenderCloseButton ??
-  findByProps("getHeaderCloseButton")?.getHeaderCloseButton;
-const Navigator =
-  findByName("Navigator") ?? findByProps("Navigator")?.Navigator;
+  findByProps("getHeaderCloseButton")?.getHeaderCloseButton
+const Navigator = findByName("Navigator") ?? findByProps("Navigator")?.Navigator
 const { FormRow, FormIcon } = Forms
 
 const unpatch = before("openLazy", LazyActionSheet, ([component, key, msg]) => {
