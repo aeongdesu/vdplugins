@@ -1,5 +1,5 @@
-import { findByName, findByProps, findByStoreName } from "@vendetta/metro"
 import { ReactNative, clipboard, React } from "@vendetta/metro/common"
+import { findByName, findByProps } from "@vendetta/metro"
 import { showToast } from "@vendetta/ui/toasts"
 import { getAssetIDByName } from "@vendetta/ui/assets"
 import { Button } from "@vendetta/ui/components"
