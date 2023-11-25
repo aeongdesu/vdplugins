@@ -49,7 +49,7 @@ export default function RawPage({ message }) {
                        id: "0",
                        channel_id: message.channel_id,
                        author: message.author,
-                       content: message.content + "\n\n\n\n```js\n" + stringMessage + "\n```",
+                       content: message.content + "\n\n```js\n" + stringMessage + "\n```",
                    })
                }
            />
