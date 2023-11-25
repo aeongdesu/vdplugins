@@ -1,8 +1,16 @@
+import { findByName, findByProps, findByStoreName } from "@vendetta/metro"
 import { ReactNative, clipboard, React } from "@vendetta/metro/common"
 import { showToast } from "@vendetta/ui/toasts"
 import { getAssetIDByName } from "@vendetta/ui/assets"
-import { Codeblock, Button } from "@vendetta/ui/components"
+import { Button } from "@vendetta/ui/components"
 import { cleanMessage } from "./cleanMessage"
+
+const { default: ChatItemWrapper } = findByProps(
+  "DCDAutoModerationSystemMessageView",
+  "default"
+)
+const MessageRecord = findByName("MessageRecord")
+const RowManager = findByName("RowManager")
 
 const { ScrollView } = ReactNative
 
@@ -34,8 +42,17 @@ export default function RawPage({ message }) {
                     showToast("Copied data to clipboard", getAssetIDByName("toast_copy_link"))
                 }}
             />
-            {message.content && <Codeblock selectable style={style}>{message.content}</Codeblock>}
-            <Codeblock selectable>{stringMessage}</Codeblock>
+           <ChatItemWrapper
+               rowGenerator={new RowManager()}
+               message={
+                   new MessageRecord({
+                       id: "0",
+                       channel_id: message.channel_id,
+                       author: message.author,
+                       content: message.content + "\n\n\n\n```js\n" + stringMessage + "\n```",
+                   })
+               }
+           />
         </ScrollView>
     </>)
 }
