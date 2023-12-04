@@ -16,11 +16,13 @@ const translate = async (text: string, source_lang: string = "", target_lang: st
                 target_lang
             })
         })).json()
-        if (data.code !== 200) throw Error(`Failed to translate text from DeepL: ${data.message}`)
+        if (data.code !== 201) throw Error(`Failed to translate text from DeepL: ${data.message}`)
         return { source_lang, text: data.data }
     } catch (e) {
-        throw Error(`Failed to translate text from DeepL: ${e}`)
+        throw Error(`Failed to fetch from DeepL: ${e}`)
     }
 }
 
 export default { translate }
+
+
