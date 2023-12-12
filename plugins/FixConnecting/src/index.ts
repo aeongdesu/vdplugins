@@ -9,9 +9,11 @@ import { showToast } from "@vendetta/ui/toasts"
 const startSession = findByProps("startSession")
 const AuthenticationStore = findByStoreName("AuthenticationStore")
 
+let timeout: number
+
 const unpatch = after("startSession", startSession, () => {
     unpatch()
-    setTimeout(() => {
+    timeout = setTimeout(() => {
         let session_id = AuthenticationStore.getSessionId()
         if (!session_id) {
             FluxDispatcher?.dispatch({type: "APP_STATE_UPDATE", state: "active"})
@@ -20,4 +22,7 @@ const unpatch = after("startSession", startSession, () => {
     }, 300)
 })
 
-export const onUnload = () => unpatch()
+export const onUnload = () => {
+    unpatch()
+    if (timeout) clearTimeout(timeout) // idk why but afraid
+}
