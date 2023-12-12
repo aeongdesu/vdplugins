@@ -16,7 +16,7 @@ if (storage.theme && storage.isEnabled) {
 }
 
 const patches = [
-    instead("setShouldSyncAppearanceSettings", AppearanceSettings, () => !storage.isEnabled),
+    instead("setShouldSyncAppearanceSettings", AppearanceSettings, () => false),
     instead("canUseClientThemes", canUse, () => true),
     after("getUserExperimentDescriptor", ExperimentStore, ([expName], res) => {
         if (expName === "2023-02_client_themes_mobile" && res?.bucket) {
