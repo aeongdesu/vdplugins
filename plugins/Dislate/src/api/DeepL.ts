@@ -1,6 +1,6 @@
 import { DeepLResponse } from "../type"
 
-const API_URL = "https://api.deeplx.fun/translate"
+const API_URL = "https://api.deeplx.org/translate"
 
 const translate = async (text: string, source_lang: string = "auto", target_lang: string, original: boolean = false) => {
     try {
