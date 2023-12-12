@@ -1,29 +1,34 @@
-import { find, findByProps } from "@vendetta/metro"
+// stole from https://github.com/m4fn3/FreeNitroTheme/blob/master/src/index.tsx
+import { findByProps, findByStoreName } from "@vendetta/metro"
 import { instead, after } from "@vendetta/patcher"
 import { storage } from "@vendetta/plugin"
 
 const AppearanceSettings = findByProps("setShouldSyncAppearanceSettings")
-const canUse = find(m => m.default?.canUseClientThemes)
+const canUse = findByProps("canUseClientThemes")
 const ThemeUtils = findByProps("updateBackgroundGradientPreset")
-// const { ClientThemesNewThemesExperiment } = findByProps("ClientThemesNewThemesExperiment")
-const { ClientThemesMobileExperiment } = findByProps("ClientThemesMobileExperiment")
+const ExperimentStore = findByStoreName("ExperimentStore")
 
 storage.isEnabled ??= false
-
-// ClientThemesNewThemesExperiment.getCurrentConfig().hasNewClientThemes = true
-ClientThemesMobileExperiment.getCurrentConfig().hasClientThemes = true
 
 AppearanceSettings.setShouldSyncAppearanceSettings(false)
 if (storage.theme && storage.isEnabled) {
     ThemeUtils.updateBackgroundGradientPreset(storage.theme)
 }
 
-// unfreeze canUse object
-canUse.default = { ...canUse.default }
-
 const patches = [
     instead("setShouldSyncAppearanceSettings", AppearanceSettings, () => !storage.isEnabled),
-    instead("canUseClientThemes", canUse.default, () => true),
+    instead("canUseClientThemes", canUse, () => true),
+    after("getUserExperimentDescriptor", ExperimentStore, ([expName], res) => {
+        if (expName === "2023-02_client_themes_mobile" && res?.bucket) {
+            return {
+                type: "user",
+                revision: 1,
+                population: 0,
+                bucket: 1,
+                override: true
+            }
+        }
+    }),
     after("updateMobilePendingThemeIndex", ThemeUtils, (args) => {
         storage.isEnabled = args[0] > 1 // 0 ~ 1 | default || 2 ~ | client themes
     }),
