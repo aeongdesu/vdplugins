@@ -1,4 +1,5 @@
 export default {
+    "arabic": "AR",
     "bulgarian": "BG",
     "czech": "CS",
     "danish": "DA",
