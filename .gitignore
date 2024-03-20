@@ -3,3 +3,7 @@ dist/
 pnpm-lock.yaml
 yarn.lock
 package-lock.json
+.local
+result
+.replit
+replit.nix
